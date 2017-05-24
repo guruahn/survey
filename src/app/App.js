@@ -9,7 +9,8 @@ import Login from '../user/Login';
 import Register from '../user/Register';
 import Header from './Header'
 import Home from './Home';
-import MySurveys from '../surveys/MySurveys';
+import MySurveys from '../surveys/MySurveys'
+import Loading from 'react-loading-animation'
 
 //Etcs...
 import './style/Base.css';
@@ -80,6 +81,9 @@ class App extends Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return <div className="u-marginTop10em"><Loading type='balls' color='#F0AD4E' /></div>
+    }
     return (
       <div>
         <BrowserRouter>
