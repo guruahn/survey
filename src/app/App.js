@@ -12,7 +12,6 @@ import Home from './Home';
 import MySurveys from '../surveys/MySurveys';
 
 //Etcs...
-import logo from './logo.svg';
 import './style/Base.css';
 
 
@@ -56,7 +55,7 @@ class App extends Component {
         //console.log('authed:', user)
         //console.log('emailVerified:', user.emailVerified)
         let authed = true;
-        if(process.env.NODE_ENV == "production"){
+        if(process.env.NODE_ENV === "production"){
           if(!user.emailVerified){
             authed = false;
           }

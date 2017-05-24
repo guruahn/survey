@@ -1,5 +1,4 @@
 import * as types from './SurveysActionTypes';
-import { database, firebaseAuth, datetimeFormat } from '../config/constants';
 
 const initialState = {
   surveys: [],
