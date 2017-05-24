@@ -53,8 +53,18 @@ class App extends Component {
   componentDidMount () {
     this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
       if (user) {
+        //console.log('authed:', user)
+        //console.log('emailVerified:', user.emailVerified)
+        let authed = true;
+        if(process.env.NODE_ENV == "production"){
+          if(!user.emailVerified){
+            authed = false;
+          }
+        }else{
+
+        }
         this.setState({
-          authed: true,
+          authed: authed,
           loading: false,
           user: user
         })
@@ -64,7 +74,6 @@ class App extends Component {
         })
       }
     })
-    //console.log(this.state)
   }
 
   componentWillUnmount () {
