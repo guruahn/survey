@@ -4,12 +4,12 @@ const initialState = {
   surveys: [],
 };
 
-export default function surveys(state = initialState, action){
+export default function mySurveys(state = initialState, action){
   switch (action.type) {
     case types.SET_MY_SURVEYS:
       return {
         ...state,
-        underlines: action.underlines
+        surveys: action.surveys
       }
 
     default:

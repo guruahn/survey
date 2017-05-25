@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import mySurvey from '../surveys/MySurveysReducer';
+import mySurveys from '../surveys/MySurveysReducer';
 
 const reducers = combineReducers({
-  mySurvey
+  mySurveys
 });
 
 export default reducers;
