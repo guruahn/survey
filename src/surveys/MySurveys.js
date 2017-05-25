@@ -4,7 +4,7 @@ import { database, firebaseAuth } from '../config/constants';
 import Loading from 'react-loading-animation';
 
 //Components
-
+import Survey from './Survey'
 //redux
 import { connect } from 'react-redux';
 import * as actions from './SurveysActions';
@@ -32,10 +32,29 @@ class MySurveys extends Component {
   }
 
   render() {
+    const mapToComponent = (surveys) => {
+      if(typeof surveys === 'undefined' || surveys.length === 0){
+        return <Loading />
+      }else{
+
+        return surveys.map((survey, i) => {
+          console.log('survey', survey)
+          return (
+            <li className={"list-group-item"} data-name="item" key={survey.key}>
+              <Survey
+                underline={survey.value}
+                />
+            </li>
+          )
+        });
+      }
+    };
     return(
-      <div className={"u-maxWidth700 u-marginAuto"} data-name={"wrapper"}>
+      <div className={"u-maxWidth700 u-marginAuto"}>
         <h2>설문지 목록</h2>
-        <div data-name="survey-list"><li>surveyList</li></div>
+        <div data-name="survey-list">
+          <ul className={"list-group"}>{mapToComponent(this.props.surveys)}</ul>
+        </div>
       </div>
     );
   }
@@ -53,4 +72,5 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default MySurveys;
+export default connect(mapStateToProps, mapDispatchToProps)(MySurveys);
+export { MySurveys as PureMySurveys};
