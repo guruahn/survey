@@ -1,0 +1,45 @@
+//Dependencies
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom'
+import { expect, assert } from 'chai'
+import { shallow, mount } from 'enzyme'
+
+
+//Components
+import user from '../../config/authInfoForTest'
+import { MySurveysStore } from './MySurveys.store'
+import {PureSurveyDetail} from '../SurveyDetail'
+import { dummy } from './MySurveys.dummy';
+
+//redux
+import { createStore } from 'redux'
+import reducers from '../../app/reducer'
+import { Provider } from 'react-redux'
+
+const store = createStore(reducers);
+
+describe('<SurveysDetail />', () => {
+  //공통
+  const props = {
+    user: user,
+    auth: true,
+  }
+
+  it('[shallow] SurveyDetail 크래시 없이 렌더', () => {
+    //given
+    //when
+    const wrapper = shallow(<PureSurveyDetail user={user} auth={true} store={MySurveysStore} />);
+    //console.log(wrapper.debug())
+    //then
+  });
+  it('SurveyDetail 렌더하면 페이지 제목이 "설문지 작성" 여야 한다', () => {
+    //given
+    //when
+    const wrapper = mount(<PureSurveyDetail user={user} auth={true} store={MySurveysStore} />);
+    //console.log(wrapper.debug())
+    //then
+    const title = wrapper.find('h1').text();
+    expect(title).to.equal("설문지 작성");
+  });
+});

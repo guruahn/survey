@@ -57,6 +57,7 @@ class MySurveys extends Component {
 
   componentDidMount(){
     this.getSurveys()
+    console.log(this.props.match)
   }
 
   render() {

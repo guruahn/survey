@@ -10,3 +10,10 @@ export function setMySurveys (surveys){
     surveys
   };
 }
+
+export function setSurvey (survey){
+  return {
+    type: types.SET_SURVEY,
+    survey
+  }
+}

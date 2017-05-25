@@ -25,22 +25,32 @@ describe('<MySurveys />', () => {
   const props = {
     user: user,
     auth: true,
+    path: "/mySurveys"
   }
 
   it('[shallow] MySurveys 크래시 없이 렌더', () => {
     //given
+
     //when
-    const wrapper = shallow(<PureMySurveys user={user} auth={true} store={MySurveysStore} />);
+    const wrapper = mount(
+      <Provider store={MySurveysStore}>
+        <BrowserRouter>
+          <Route
+            render={(props) => <PureMySurveys surveys={dummy.surveys} user={user}/>}
+          />
+        </BrowserRouter>
+      </Provider>
+    );
     //console.log(wrapper.debug())
     //then
   });
-  it('[shallow] MySurveys렌더하면 페이지 제목이 "설문지 목록" 여야 한다', () => {
+  it('MySurveys렌더하면 페이지 제목이 "설문지 목록" 여야 한다', () => {
     //given
     //when
     const wrapper = mount(<PureMySurveys user={user} auth={true} store={MySurveysStore} />);
     //console.log(wrapper.debug())
     //then
-    const title = wrapper.find('h2').text();
+    const title = wrapper.find('h1').text();
     expect(title).to.equal("설문지 목록");
   });
   it('[shallow] MySurveys렌더하면 설문조사 목록이 3개 있어야 한다.', () => {

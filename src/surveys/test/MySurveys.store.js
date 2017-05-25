@@ -5,7 +5,10 @@ export const MySurveysStore = {
 	subscribe: () => {},
 	dispatch: () => {},
 	getState: () => {
-		return { surveys: [dummy.surveys] };
+		return {
+			surveys: [dummy.surveys],
+			match:{url: "/mySurveys"} 
+		};
 	},
   replaceReducer: () => {},
 };
