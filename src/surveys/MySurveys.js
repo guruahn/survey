@@ -5,14 +5,17 @@ import Loading from 'react-loading-animation';
 
 //Components
 import Survey from './Survey'
+import { dummy } from './test/MySurveys.dummy';
+
 //redux
 import { connect } from 'react-redux';
 import * as actions from './SurveysActions';
 
 class MySurveys extends Component {
   constructor(props) {
-    super(props);
-    this.getSurveys = this.getSurveys.bind(this);
+    super(props)
+    this.getSurveys = this.getSurveys.bind(this)
+    this.getSurveysTemp = this.getSurveysTemp.bind(this)
   }
 
   getSurveys(){
@@ -27,8 +30,13 @@ class MySurveys extends Component {
     });
   }
 
+  getSurveysTemp(){
+    this.props.handleSetMySurveys(dummy.surveys)
+  }
+
   componentDidMount(){
-    this.getSurveys()
+    //this.getSurveys()
+    //this.getSurveysTemp()
   }
 
   render() {
@@ -52,6 +60,7 @@ class MySurveys extends Component {
     return(
       <div className={"u-maxWidth700 u-marginAuto"}>
         <h2>설문지 목록</h2>
+        <div><button>설문지 추가</button></div>
         <div data-name="survey-list">
           <ul className={"list-group"}>{mapToComponent(this.props.surveys)}</ul>
         </div>
