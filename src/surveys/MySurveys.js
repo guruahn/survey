@@ -1,11 +1,13 @@
 //Dependencies
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { Route, Link } from 'react-router-dom'
 import { database, firebaseAuth, datetimeFormat } from '../config/constants';
 import Loading from 'react-loading-animation';
 import moment from 'moment';
 
 //Components
 import Survey from './Survey'
+import SurveyDetail from './SurveyDetail'
 
 //redux
 import { connect } from 'react-redux';
@@ -76,16 +78,24 @@ class MySurveys extends Component {
       }
     };
     return(
-      <div className={"u-maxWidth700 u-marginAuto"}>
-        <h2>설문지 목록</h2>
-        <div>
-          <button onClick={() => this.addSurvey()}>
-            설문지 추가
-          </button>
-        </div>
-        <div data-name="survey-list">
-          <ul className={"list-group"}>{mapToComponent(this.props.surveys)}</ul>
-        </div>
+      <div className="u-maxWidth700 u-marginAuto">
+        <Route
+          path={`${this.props.match.url}/:surveyKey`}
+          component={props => <SurveyDetail {...props} user={this.props.user}/>}
+          />
+        <Route exact path={this.props.match.url} render={() => (
+          <div>
+            <h1>설문지 목록</h1>
+            <div>
+              <button onClick={this.addSurvey()}>
+                설문지 추가
+              </button>
+            </div>
+            <div data-name="survey-list">
+              <ul className={"list-group"}>{mapToComponent(this.props.surveys)}</ul>
+            </div>
+          </div>
+        )}/>
       </div>
     );
   }
