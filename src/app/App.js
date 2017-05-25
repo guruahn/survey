@@ -10,6 +10,7 @@ import Register from '../user/Register';
 import Header from './Header'
 import Home from './Home';
 import MySurveys from '../surveys/MySurveys'
+import SurveyDetail from '../surveys/SurveyDetail'
 import Loading from 'react-loading-animation'
 
 //Etcs...
@@ -17,7 +18,7 @@ import './style/Base.css';
 
 
 function PrivateRoute ({component: Component, authed, ...rest}) {
-  console.log('props', rest)
+  //console.log('props', rest)
   return (
     <Route
       {...rest}
@@ -102,7 +103,8 @@ class App extends Component {
                   <PublicRoute path='/' exact component={Home} authed={this.state.authed} />
                   <PublicRoute authed={this.state.authed} path='/login' component={Login} />
                   <PublicRoute authed={this.state.authed} path='/register' component={Register} />
-                  <PrivateRoute authed={this.state.authed} path='/mySurveys' component={MySurveys} user={this.state.user} />
+                  <PrivateRoute exact authed={this.state.authed} path='/mySurveys' component={MySurveys} user={this.state.user} />
+                  <PrivateRoute authed={this.state.authed} path='/mySurveys/:surveyKey' component={SurveyDetail} user={this.state.user} />
                   <Route render={() => <h3>No Match</h3>} />
                 </Switch>
               </div>

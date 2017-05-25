@@ -33,13 +33,7 @@ describe('<MySurveys />', () => {
 
     //when
     const wrapper = mount(
-      <Provider store={MySurveysStore}>
-        <BrowserRouter>
-          <Route
-            render={(props) => <PureMySurveys surveys={dummy.surveys} user={user}/>}
-          />
-        </BrowserRouter>
-      </Provider>
+      <PureMySurveys surveys={dummy.surveys} user={user} auth={true} store={MySurveysStore}/>
     );
     //console.log(wrapper.debug())
     //then
@@ -47,7 +41,9 @@ describe('<MySurveys />', () => {
   it('MySurveys렌더하면 페이지 제목이 "설문지 목록" 여야 한다', () => {
     //given
     //when
-    const wrapper = mount(<PureMySurveys user={user} auth={true} store={MySurveysStore} />);
+    const wrapper = mount(
+      <PureMySurveys surveys={dummy.surveys} user={user} auth={true} store={MySurveysStore}/>
+    );
     //console.log(wrapper.debug())
     //then
     const title = wrapper.find('h1').text();
@@ -57,13 +53,7 @@ describe('<MySurveys />', () => {
     //given
     //when
     const wrapper = mount(
-      <Provider store={MySurveysStore}>
-        <BrowserRouter>
-          <Route
-            render={(props) => <PureMySurveys surveys={dummy.surveys} user={user}/>}
-          />
-        </BrowserRouter>
-      </Provider>
+       <PureMySurveys surveys={dummy.surveys} user={user} auth={true} store={MySurveysStore}/>
     );
 
     //console.log(wrapper.debug())
@@ -75,7 +65,7 @@ describe('<MySurveys />', () => {
     //given
     //when
     const wrapper = mount(<PureMySurveys user={user} auth={true} store={MySurveysStore} />);
-    console.log(wrapper.debug())
+    //console.log(wrapper.debug())
     //then
     const button = wrapper.find('button').text();
     expect(button).to.equal("설문지 추가");
@@ -98,13 +88,7 @@ describe('<MySurveys />', () => {
     })
     //when
     const wrapper = mount(
-      <Provider store={MySurveysStore}>
-        <BrowserRouter>
-          <Route
-            render={(props) => <PureMySurveys surveys={dummy.surveys} user={user}/>}
-          />
-        </BrowserRouter>
-      </Provider>
+      <PureMySurveys surveys={dummy.surveys} user={user} auth={true} store={MySurveysStore}/>
     );
 
     //console.log(wrapper.debug())

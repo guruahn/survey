@@ -36,8 +36,8 @@ class MySurveys extends Component {
     const updates = {};
     let _this = this;
     let surveyKey;
-    surveyKey = database.ref().child('surveys').push().key;
-    updates['/surveys/' + this.props.user.uid + '/' + surveyKey] = {
+    surveyKey = database.ref().child('user-surveys').push().key;
+    updates['/user-surveys/' + this.props.user.uid + '/' + surveyKey] = {
       "title": "설문제목을 입력하세요.",
       "updateDatetime": moment().format(datetimeFormat),
       "query": [
@@ -49,6 +49,7 @@ class MySurveys extends Component {
       ]
     };
     database.ref().update(updates).then(function(){
+      console.log('update complete')
       _this.props.history.push('/mySurveys/' + surveyKey);
     }, function(error) {
         console.log("Error updating data:", error);
@@ -57,7 +58,6 @@ class MySurveys extends Component {
 
   componentDidMount(){
     this.getSurveys()
-    console.log(this.props.match)
   }
 
   render() {
@@ -67,7 +67,7 @@ class MySurveys extends Component {
       }else{
 
         return surveys.map((survey, i) => {
-          console.log('survey', survey)
+          //console.log('survey', survey)
           return (
             <li className={"list-group-item"} data-name="item" key={survey.key}>
               <Survey
@@ -80,23 +80,15 @@ class MySurveys extends Component {
     };
     return(
       <div className="u-maxWidth700 u-marginAuto">
-        <Route
-          path={`${this.props.match.url}/:surveyKey`}
-          component={props => <SurveyDetail {...props} user={this.props.user}/>}
-          />
-        <Route exact path={this.props.match.url} render={() => (
-          <div>
-            <h1>설문지 목록</h1>
-            <div>
-              <button onClick={this.addSurvey()}>
-                설문지 추가
-              </button>
-            </div>
-            <div data-name="survey-list">
-              <ul className={"list-group"}>{mapToComponent(this.props.surveys)}</ul>
-            </div>
-          </div>
-        )}/>
+        <h1>설문지 목록</h1>
+        <div>
+          <button onClick={this.addSurvey}>
+            설문지 추가
+          </button>
+        </div>
+        <div data-name="survey-list">
+          <ul className={"list-group"}>{mapToComponent(this.props.surveys)}</ul>
+        </div>
       </div>
     );
   }
