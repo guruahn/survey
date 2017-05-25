@@ -1,11 +1,11 @@
 //Dependencies
 import React, { Component, PropTypes } from 'react';
-import { database, firebaseAuth } from '../config/constants';
+import { database, firebaseAuth, datetimeFormat } from '../config/constants';
 import Loading from 'react-loading-animation';
+import moment from 'moment';
 
 //Components
 import Survey from './Survey'
-import { dummy } from './test/MySurveys.dummy';
 
 //redux
 import { connect } from 'react-redux';
@@ -15,7 +15,7 @@ class MySurveys extends Component {
   constructor(props) {
     super(props)
     this.getSurveys = this.getSurveys.bind(this)
-    this.getSurveysTemp = this.getSurveysTemp.bind(this)
+    this.addSurvey = this.addSurvey.bind(this);
   }
 
   getSurveys(){
@@ -30,13 +30,31 @@ class MySurveys extends Component {
     });
   }
 
-  getSurveysTemp(){
-    this.props.handleSetMySurveys(dummy.surveys)
+  addSurvey(){
+    const updates = {};
+    let _this = this;
+    let surveyKey;
+    surveyKey = database.ref().child('surveys').push().key;
+    updates['/surveys/' + this.props.user.uid + '/' + surveyKey] = {
+      "title": "설문제목을 입력하세요.",
+      "updateDatetime": moment().format(datetimeFormat),
+      "query": [
+        {
+          "questioin": "질문을 입력하세요",
+          "answerType": "yesOrNo",
+          "order": 0
+        }
+      ]
+    };
+    database.ref().update(updates).then(function(){
+      _this.props.history.push('/mySurveys/' + surveyKey);
+    }, function(error) {
+        console.log("Error updating data:", error);
+    });
   }
 
   componentDidMount(){
-    //this.getSurveys()
-    //this.getSurveysTemp()
+    this.getSurveys()
   }
 
   render() {
@@ -60,7 +78,11 @@ class MySurveys extends Component {
     return(
       <div className={"u-maxWidth700 u-marginAuto"}>
         <h2>설문지 목록</h2>
-        <div><button>설문지 추가</button></div>
+        <div>
+          <button onClick={() => this.addSurvey()}>
+            설문지 추가
+          </button>
+        </div>
         <div data-name="survey-list">
           <ul className={"list-group"}>{mapToComponent(this.props.surveys)}</ul>
         </div>
