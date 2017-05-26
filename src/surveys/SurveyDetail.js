@@ -14,7 +14,7 @@ class SurveyDetail extends Component {
   getServey(){
     let _this = this
     let surveyRef = database.ref('/user-surveys/' + this.props.user.uid + '/' + this.props.match.params.surveyKey);
-    console.log('start getServey!!!!')
+    //console.log('start getServey!!!!')
     surveyRef.once('value').then(function(snapshot, key) {
       //console.log(snapshot.val())
       _this.props.handleSetSurvey(snapshot.val())

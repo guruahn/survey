@@ -46,7 +46,7 @@ describe('<SurveysDetail />', () => {
     //given
     //when
     const wrapper = mount(<PureSurveyDetail surveyDetail={dummy.surveyDetail} user={user} auth={true} store={MySurveysStore} match={{"params":{"surveyKey":"-Kl-2ap7ZaFtC4i3VdeU"}}} />);
-    console.log(wrapper.debug())
+    //console.log(wrapper.debug())
     //then
     const title = wrapper.find('[data-name="title"]').text();
     expect(title).to.equal("설문제목을 입력하세요.");
