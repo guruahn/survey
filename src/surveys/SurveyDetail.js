@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { database, firebaseAuth } from '../config/constants';
 import Loading from 'react-loading-animation';
 
@@ -9,6 +9,7 @@ class SurveyDetail extends Component {
   constructor(props) {
     super(props);
     this.getServey = this.getServey.bind(this);
+    this.setSurveyTitle = this.setSurveyTitle.bind(this);
   }
 
   getServey(){
@@ -21,24 +22,16 @@ class SurveyDetail extends Component {
     });
   }
 
+  setSurveyTitle(e){
+    this.props.handleSetSurveyTitle(e.target.value)
+  }
+
   componentDidMount(){
     this.getServey()
   }
 
   render() {
-    const printSurvey = (survey) => {
-      //console.log('survey', survey)
-      if(typeof survey === 'undefined'){
-        return <Loading />
-      }else{
-        return (
-          <div>
-            <div data-name="title">{survey.title}</div>
-            {printQueryOfSurvey(survey.query)}
-          </div>
-        )
-      }
-    };
+
     const printQueryOfSurvey = (querys) => {
       if(querys && querys.length > 0){
         return querys.map((query, i) => {
@@ -53,7 +46,10 @@ class SurveyDetail extends Component {
     return(
       <div className="u-maxWidth700 u-marginAuto">
         <h1>설문지 작성</h1>
-        {printSurvey(this.props.surveyDetail)}
+        <div>
+          <input type="text" value={this.props.surveyDetail.title} onChange={this.setSurveyTitle} name="title" data-name="title"/>
+        </div>
+        {printQueryOfSurvey(this.props.surveyDetail.query)}
       </div>
     );
   }
@@ -68,7 +64,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleSetSurvey: (survey) => { dispatch(actions.setSurvey(survey)) }
+    handleSetSurvey: (survey) => { dispatch(actions.setSurvey(survey)) },
+    handleSetSurveyTitle: (title) => { dispatch(actions.setSurveyTitle(title))}
   };
 };
 

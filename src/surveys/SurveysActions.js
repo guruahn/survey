@@ -17,3 +17,10 @@ export function setSurvey (survey){
     survey
   }
 }
+
+export function setSurveyTitle (title){
+  return {
+    type: types.SET_SURVEY_TITLE,
+    title
+  }
+}

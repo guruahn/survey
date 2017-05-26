@@ -51,9 +51,10 @@ describe('<SurveysDetail />', () => {
     const wrapper = mount(<PureSurveyDetail {...props} />);
     //console.log(wrapper.debug())
     //then
-    const title = wrapper.find('[data-name="title"]').text();
-    expect(title).to.equal("설문제목을 입력하세요.");
+    const title = wrapper.find('[data-name="title"]').getDOMNode();
+    expect(title.value).to.equal("설문제목을 입력하세요.");
   });
+  
   it('SurveyDetail 설문지에 질문이 한 개 있다', () => {
     //given
     //when
