@@ -23,27 +23,25 @@ describe('<MySurveys />', () => {
 
   //공통
   const props = {
-    user: user,
-    auth: true,
-    path: "/mySurveys"
+    "user": user,
+    "auth": true,
+    "store": MySurveysStore,
+    "surveys":dummy.surveys
   }
 
   it('[shallow] MySurveys 크래시 없이 렌더', () => {
     //given
 
     //when
-    const wrapper = mount(
-      <PureMySurveys surveys={dummy.surveys} user={user} auth={true} store={MySurveysStore}/>
-    );
+    const wrapper = mount( <PureMySurveys {...props}/> );
+
     //console.log(wrapper.debug())
     //then
   });
   it('MySurveys렌더하면 페이지 제목이 "설문지 목록" 여야 한다', () => {
     //given
     //when
-    const wrapper = mount(
-      <PureMySurveys surveys={dummy.surveys} user={user} auth={true} store={MySurveysStore}/>
-    );
+    const wrapper = mount( <PureMySurveys {...props}/> );
     //console.log(wrapper.debug())
     //then
     const title = wrapper.find('h1').text();
@@ -52,9 +50,7 @@ describe('<MySurveys />', () => {
   it('[shallow] MySurveys렌더하면 설문조사 목록이 3개 있어야 한다.', () => {
     //given
     //when
-    const wrapper = mount(
-       <PureMySurveys surveys={dummy.surveys} user={user} auth={true} store={MySurveysStore}/>
-    );
+    const wrapper = mount( <PureMySurveys {...props}/> );
 
     //console.log(wrapper.debug())
     //console.log(wrapper.props().store)
@@ -64,7 +60,8 @@ describe('<MySurveys />', () => {
   it('MySurveys렌더하면 "설문지 추가" 버튼이 있다.', () => {
     //given
     //when
-    const wrapper = mount(<PureMySurveys user={user} auth={true} store={MySurveysStore} />);
+    const wrapper = mount( <PureMySurveys {...props}/> );
+
     //console.log(wrapper.debug())
     //then
     const button = wrapper.find('button').text();
@@ -87,9 +84,7 @@ describe('<MySurveys />', () => {
       }
     })
     //when
-    const wrapper = mount(
-      <PureMySurveys surveys={dummy.surveys} user={user} auth={true} store={MySurveysStore}/>
-    );
+    const wrapper = mount( <PureMySurveys {...props}/> );
 
     //console.log(wrapper.debug())
     //console.log(wrapper.props().store)

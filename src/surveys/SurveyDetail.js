@@ -31,9 +31,25 @@ class SurveyDetail extends Component {
       if(typeof survey === 'undefined'){
         return <Loading />
       }else{
-        return <div data-name="title">{survey.title}</div>
+        return (
+          <div>
+            <div data-name="title">{survey.title}</div>
+            {printQueryOfSurvey(survey.query)}
+          </div>
+        )
       }
     };
+    const printQueryOfSurvey = (querys) => {
+      if(querys && querys.length > 0){
+        return querys.map((query, i) => {
+          return (
+            <div data-name="query" key={i}>
+
+            </div>
+          )
+        });
+      }
+    }
     return(
       <div className="u-maxWidth700 u-marginAuto">
         <h1>설문지 작성</h1>
@@ -41,6 +57,7 @@ class SurveyDetail extends Component {
       </div>
     );
   }
+
 }
 
 const mapStateToProps = (state) => {
