@@ -36,10 +36,19 @@ describe('<SurveysDetail />', () => {
   it('SurveyDetail 렌더하면 페이지 제목이 "설문지 작성" 여야 한다', () => {
     //given
     //when
-    const wrapper = mount(<PureSurveyDetail user={user} auth={true} store={MySurveysStore} />);
+    const wrapper = mount(<PureSurveyDetail user={user} auth={true} store={MySurveysStore} match={{"params":{"surveyKey":"-Kl-2ap7ZaFtC4i3VdeU"}}}/>);
     //console.log(wrapper.debug())
     //then
     const title = wrapper.find('h1').text();
     expect(title).to.equal("설문지 작성");
+  });
+  it('SurveyDetail 렌더하면 설문지 제목이 "설문제목을 입력하세요." 이어야 한다.', () => {
+    //given
+    //when
+    const wrapper = mount(<PureSurveyDetail surveyDetail={dummy.surveyDetail} user={user} auth={true} store={MySurveysStore} match={{"params":{"surveyKey":"-Kl-2ap7ZaFtC4i3VdeU"}}} />);
+    console.log(wrapper.debug())
+    //then
+    const title = wrapper.find('[data-name="title"]').text();
+    expect(title).to.equal("설문제목을 입력하세요.");
   });
 });

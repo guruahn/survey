@@ -48,5 +48,16 @@ export const dummy = {
         ]
       }
     }
-  ]
+  ],
+  'surveyDetail': {
+    "title": "설문제목을 입력하세요.",
+    "updateDatetime": "2017-05-25 23:40:17.097",
+    "query": [
+      {
+        "questioin": "질문을 입력하세요",
+        "answerType": "yesOrNo",
+        "order": 0
+      }
+    ]
+  }
 }
