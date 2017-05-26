@@ -40,9 +40,9 @@ class MySurveys extends Component {
     updates['/user-surveys/' + this.props.user.uid + '/' + surveyKey] = {
       "title": "설문제목을 입력하세요.",
       "updateDatetime": moment().format(datetimeFormat),
-      "query": [
+      "querys": [
         {
-          "questioin": "질문을 입력하세요",
+          "question": "질문을 입력하세요",
           "answerType": "yesOrNo",
           "order": 0
         }

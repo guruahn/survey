@@ -24,3 +24,17 @@ export function setSurveyTitle (title){
     title
   }
 }
+
+export function setSurveyQueryTitle (title, index){
+  return {
+    type: types.SET_SURVEY_QUERY_TITLE,
+    title, index
+  }
+}
+
+export function setSurveyQueryAnswerType ( answerType, index){
+  return {
+    type: types.SET_SURVEY_QUERY_ANSWER_TYPE,
+    answerType, index
+  }
+}

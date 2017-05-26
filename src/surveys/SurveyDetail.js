@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { database, firebaseAuth } from '../config/constants';
+import { database, firebaseAuth, answerTypes } from '../config/constants';
 import Loading from 'react-loading-animation';
 
 import { connect } from 'react-redux';
@@ -10,6 +10,8 @@ class SurveyDetail extends Component {
     super(props);
     this.getServey = this.getServey.bind(this);
     this.setSurveyTitle = this.setSurveyTitle.bind(this);
+    this.setSurveyQueryTitle = this.setSurveyQueryTitle.bind(this);
+    this.setSurveyQueryAnswerType = this.setSurveyQueryAnswerType.bind(this);
   }
 
   getServey(){
@@ -25,6 +27,14 @@ class SurveyDetail extends Component {
   setSurveyTitle(e){
     this.props.handleSetSurveyTitle(e.target.value)
   }
+  setSurveyQueryTitle(e){
+    const index = e.target.attributes.getNamedItem('data-index').value
+    this.props.handleSetServeyQueryTitle(e.target.value, index)
+  }
+  setSurveyQueryAnswerType(e){
+    const index = e.target.attributes.getNamedItem('data-index').value
+    this.props.handleSetSurveyQueryAnswerType(e.target.value, index)
+  }
 
   componentDidMount(){
     this.getServey()
@@ -37,11 +47,28 @@ class SurveyDetail extends Component {
         return querys.map((query, i) => {
           return (
             <div data-name="query" key={i}>
-
+              <lable>질문내용</lable><input type="text" value={query.question} onChange={this.setSurveyQueryTitle}
+              data-index={i} />
+              <label>답변형태</label>
+              <select
+                value={query.answerType}
+                onChange={this.setSurveyQueryAnswerType}
+                data-index={i}>{printQueryType()}</select>
+              <label>선택항목</label>
             </div>
           )
         });
       }
+    }
+    const printQueryType = () => {
+      return answerTypes.map((type, i)=>{
+        return (
+          <option value={type.value} key={i} >
+            {type.label}
+          </option>
+        )
+
+      })
     }
     return(
       <div className="u-maxWidth700 u-marginAuto">
@@ -49,7 +76,8 @@ class SurveyDetail extends Component {
         <div>
           <input type="text" value={this.props.surveyDetail.title} onChange={this.setSurveyTitle} name="title" data-name="title"/>
         </div>
-        {printQueryOfSurvey(this.props.surveyDetail.query)}
+        <h2>질문</h2>
+        {printQueryOfSurvey(this.props.surveyDetail.querys)}
       </div>
     );
   }
@@ -65,7 +93,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     handleSetSurvey: (survey) => { dispatch(actions.setSurvey(survey)) },
-    handleSetSurveyTitle: (title) => { dispatch(actions.setSurveyTitle(title))}
+    handleSetSurveyTitle: (title) => { dispatch(actions.setSurveyTitle(title))},
+    handleSetServeyQueryTitle: (title, index) => {dispatch(actions.setSurveyQueryTitle(title, index))},
+    handleSetSurveyQueryAnswerType: (answerType, index) => {dispatch(actions.setSurveyQueryAnswerType(answerType, index))}
   };
 };
 
