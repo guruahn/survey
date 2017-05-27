@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { database, firebaseAuth, answerTypes } from '../config/constants';
 import Loading from 'react-loading-animation';
 
+import Query from './Query.js';
+
 import { connect } from 'react-redux';
 import * as actions from './SurveysActions';
 
@@ -32,8 +34,7 @@ class SurveyDetail extends Component {
     let surveyQuerysRef = database.ref('/survey-querys/' + this.props.match.params.surveyKey);
     //console.log('start getServey!!!!')
     surveyQuerysRef.once('value').then(function(snapshot, key) {
-      console.log(snapshot.val())
-      _this.props.handleAddSurveyQuery(snapshot.val())
+      //console.log(snapshot.val())
       let querys = []
       snapshot.forEach(function(data){
         //console.log("The " + data.key + " dinosaur's score is " + JSON.stringify(data.val()));
@@ -49,11 +50,11 @@ class SurveyDetail extends Component {
     let _this = this
     //console.log('start getServey!!!!')
     querys.forEach(function(query){
-      console.log('queryKey', query.key);
+      //console.log('queryKey', query.key);
       //querys.push({key:data.key, value:data.val()})
       let queryAnswersRef = database.ref('/query-answers/' + query.key);
       queryAnswersRef.once('value').then(function(snapshot, key) {
-        console.log(snapshot.val())
+        //console.log(snapshot.val())
         let answers = []
         snapshot.forEach(function(data){
           //console.log("The " + data.key + " dinosaur's score is " + JSON.stringify(data.val()));
@@ -63,7 +64,6 @@ class SurveyDetail extends Component {
         _this.props.handleSetQueryAnswers(answers);
       });
     });
-
   }
 
   addQuery(){
@@ -80,7 +80,7 @@ class SurveyDetail extends Component {
     };
     updates['/survey-querys/' + this.props.match.params.surveyKey + '/' + queryKey] = query
     database.ref().update(updates).then(function(){
-      console.log('query update complete')
+      //console.log('query update complete')
       _this.props.handleAddSurveyQuery(queryKey, query)
       _this.addAnswer(queryKey)
     }, function(error) {
@@ -100,7 +100,7 @@ class SurveyDetail extends Component {
     };
     updates['/query-answers/' + queryKey + '/' + answerKey] = answer
     database.ref().update(updates).then(function(){
-      console.log('answer update complete')
+      //console.log('answer update complete')
       _this.props.handleAddSurveyQueryAnswer(queryKey, answerKey, answer)
     }, function(error) {
         console.log("Error answer updating data:", error);
@@ -132,20 +132,11 @@ class SurveyDetail extends Component {
   render() {
 
     const printQueryOfSurvey = (querys) => {
+      console.log('surveyDetail', this.props.surveyDetailQuerys)
       if(querys && querys.length > 0){
         return querys.map((query, i) => {
           return (
-            <div data-name="query" key={i}>
-              <lable>질문내용</lable><input type="text" value={query.question} onChange={this.setSurveyQueryTitle}
-              data-index={i} />
-              <label>답변형태</label>
-              <select
-                value={query.answerType}
-                onChange={this.setSurveyQueryAnswerType}
-                data-index={i}>{printQueryType()}</select>
-              <label>선택항목</label>
-              {printAnswers(query.answers, i)}
-            </div>
+            <Query key={i} data={query}/>
           )
         });
       }
@@ -194,7 +185,9 @@ class SurveyDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    surveyDetail: state.surveyDetail.surveyDetail
+    surveyDetail: state.surveyDetail.surveyDetail,
+    surveyDetailQuerys: state.surveyDetail.surveyDetailQuerys,
+    surveyDetailQuerysAnswers: state.surveyDetail.surveyDetailQuerysAnswers
   };
 }
 

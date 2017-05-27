@@ -14,8 +14,8 @@ const initialState = {
         }
     }
   },
-  'surveyDetailQuerys':[],
-  'surveyDetailQuerysAnswers':[]
+  surveyDetailQuerys:[],
+  surveyDetailQuerysAnswers:[]
 };
 
 export default function surveyDetail(state = initialState, action){
@@ -29,6 +29,7 @@ export default function surveyDetail(state = initialState, action){
           }
         }
       case types.SET_QUERYS:
+        console.log('set query', action)
         return {
           ...state,
           surveyDetailQuerys: action.querys
