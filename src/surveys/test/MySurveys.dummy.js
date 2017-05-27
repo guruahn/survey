@@ -52,12 +52,37 @@ export const dummy = {
   'surveyDetail': {
     "title": "설문제목을 입력하세요.",
     "updateDatetime": "2017-05-25 23:40:17.097",
-    "querys": [
-      {
-        "question": "질문을 입력하세요",
-        "answerType": "yesOrNo",
-        "order": 0
+    "querys": {
+      0 :
+        {
+          "question": "질문을 입력하세요",
+          "answerType": "yesOrNo",
+          "order": 0,
+          'answers':{0:'yes', 1:'no'}
+        }
+    }
+  },
+  'surveyDetailQuerys':[
+    "-KidQ672jYnfsuhS-5EA":{
+      "question": "질문을 입력하세요",
+      "answerType": "yesOrNo",
+      "order": 0
+    }
+  ],
+  'surveyDetailQuerysAnswers':[
+    {
+      "-KidQ672jYnfsuhS-5EA":{
+        'queryKey': "-KidQ672jYnfsuhS-5EA"
+        'value': 'yes',
+        'order': 0
       }
-    ]
-  }
+    },
+    {
+      "-KidQ602jYnfsuhS-5EA":{
+        'queryKey': "-KidQ672jYnfsuhS-5EA"
+        'value': 'no',
+        'order': 1
+      }
+    }
+  ]
 }

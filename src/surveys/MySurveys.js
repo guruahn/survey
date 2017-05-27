@@ -39,14 +39,7 @@ class MySurveys extends Component {
     surveyKey = database.ref().child('user-surveys').push().key;
     updates['/user-surveys/' + this.props.user.uid + '/' + surveyKey] = {
       "title": "설문제목을 입력하세요.",
-      "updateDatetime": moment().format(datetimeFormat),
-      "querys": [
-        {
-          "question": "질문을 입력하세요",
-          "answerType": "yesOrNo",
-          "order": 0
-        }
-      ]
+      "updateDatetime": moment().format(datetimeFormat)
     };
     database.ref().update(updates).then(function(){
       console.log('update complete')
