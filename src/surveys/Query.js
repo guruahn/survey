@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { answerTypes } from '../config/constants';
 
 import Answers from './Answers';
 
@@ -13,7 +14,7 @@ class Query extends Component {
 
   render() {
 
-    const printQueryType = (answerTypes) => {
+    const printQueryType = () => {
       return answerTypes.map((type, i)=>{
         return (
           <option value={type.value} key={i} >
@@ -62,7 +63,7 @@ class Query extends Component {
             <select
               value={this.props.queryData.value.answerType}
               onChange={this.onChangeQueryAnswerType}
-              ></select>
+              >{printQueryType()}</select>
 
           </div>
           <div>
