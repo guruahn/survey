@@ -141,29 +141,8 @@ class SurveyDetail extends Component {
         });
       }
     }
-    const printQueryType = () => {
-      return answerTypes.map((type, i)=>{
-        return (
-          <option value={type.value} key={i} >
-            {type.label}
-          </option>
-        )
 
-      })
-    }
-    const printAnswers = (answers, queryIndex) => {
-      return answers.map((answer, i) => {
-        //console.log(answer)
-        return (
-          <input
-            value={answer}
-            onChange={this.setAnswer}
-            key={i}
-            data-query-index={queryIndex}
-            data-answer-index={i}/>
-        )
-      })
-    }
+
     return(
       <div className="u-maxWidth700 u-marginAuto">
         <h1>설문지 작성</h1>
