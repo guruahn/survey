@@ -14,13 +14,16 @@ class Answers extends Component {
           return answers.answer.map((answer, i) => {
             //console.log(`input ${answers.answerKey}-${i}-${answer}`)
             return (
-              <input
-                value={answer}
-                key={`${answers.answerKey}-${i}`}
-                data-query-index={this.props.index}
-                data-answer-index={i}
-                onChange={(e) => this.props.onChangeAnswerTitle(e, this.props.queryKey, answers.answerKey, i)}
-                onBlur={(e) => this.props.onBlurAnswerTitle(this.props.queryKey, answers.answerKey, this.props.answerIndex)}/>
+              <div>
+                <input
+                  value={answer}
+                  key={`${answers.answerKey}-${i}`}
+                  data-query-index={this.props.index}
+                  data-answer-index={i}
+                  onChange={(e) => this.props.onChangeAnswerTitle(e, this.props.queryKey, answers.answerKey, i)}
+                  onBlur={(e) => this.props.onBlurAnswerTitle(this.props.queryKey, answers.answerKey, this.props.answerIndex)}
+                  disabled={this.props.isDisable}/>
+              </div>
             )
           })
         }

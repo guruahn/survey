@@ -34,6 +34,7 @@ class Query extends Component {
               <Answers
                 key={`answer-${queryKey}-${i}`}
                 answerData={answers}
+                isDisable={this.props.queryData.value.answerType == 'yesOrNo'? "disabled" : false}
                 queryKey={queryKey}
                 answerIndex={i}
                 onChangeAnswerTitle={this.props.onChangeAnswerTitle}
@@ -69,6 +70,7 @@ class Query extends Component {
           <div>
             <label>선택항목</label>
             {setAnswer(this.props.queryData.key)}
+            <button disabled={this.props.queryData.value.answerType == 'yesOrNo'? "disabled" : false}>선택항목 추가</button>
           </div>
         </div>
 
