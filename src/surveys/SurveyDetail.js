@@ -63,9 +63,9 @@ class SurveyDetail extends Component {
         let answers = []
         snapshot.forEach(function(data){
           //console.log("The " + data.key + " dinosaur's score is " + JSON.stringify(data.val()));
-          answers.push({queryKey:query.key, answerKey:data.key, answer:data.val()})
-          _this.props.handleAddSurveyQueryAnswer(query.key, data.key, data.val());
+          answers.push(data.val())
         });
+        _this.props.handleAddSurveyQueryAnswer(query.key, answers);
         //console.log(myBooks)
 
         _this.props.handleSetQuerys(querys);
@@ -83,7 +83,6 @@ class SurveyDetail extends Component {
       "question": "질문을 입력하세요",
       "answerType": "yesOrNo",
       "order": 0
-      //'answers':{0:'yes', 1:'no'}
     };
     updates['/survey-querys/' + this.props.match.params.surveyKey + '/' + queryKey] = query
     database.ref().update(updates).then(function(){
@@ -98,17 +97,11 @@ class SurveyDetail extends Component {
   addAnswer(queryKey){
     const updates = {};
     let _this = this;
-    let answerKey;
-    let answer;
-    answerKey = database.ref().child('query-answers').push().key;
-    answer = {
-      0:'yes',
-      1:'no'
-    };
-    updates['/query-answers/' + queryKey + '/' + answerKey] = answer
+    let answer = ['yes', 'no']
+    updates['/query-answers/' + queryKey] = answer
     database.ref().update(updates).then(function(){
       //console.log('answer update complete')
-      _this.props.handleAddSurveyQueryAnswer(queryKey, answerKey, answer)
+      _this.props.handleAddSurveyQueryAnswer(queryKey, answer)
     }, function(error) {
         console.log("Error answer updating data:", error);
     });
@@ -149,15 +142,15 @@ class SurveyDetail extends Component {
     }
     this.props.handleSetSurveyQueryAnswerType(e.target.value, queryKey)
   }
-  setAnswer(e, queryKey, answerKey, index){
-    this.props.handleSetSurveyAnswer(e.target.value, queryKey, answerKey, index)
+  setAnswer(e, queryKey, index){
+    this.props.handleSetSurveyAnswer(e.target.value, queryKey, index)
   }
-  saveAnswer(queryKey, answerKey, answerIndex){
+  saveAnswer(queryKey, answerIndex){
     const updates = {};
     let _this = this;
     //console.log('answerIndex', this.props.surveyDetailQuerys)
-    console.log(this.props)
-    updates['/query-answers/' + queryKey + '/' + answerKey] = this.props.surveyDetailQuerysAnswers[answerIndex].answer
+    console.log('answerIndex', answerIndex)
+    updates['/query-answers/' + queryKey] = this.props.surveyDetailQuerysAnswers[answerIndex].answer
     database.ref().update(updates).then(function(){
       console.log('update complete')
     }, function(error) {
@@ -230,12 +223,12 @@ const mapDispatchToProps = (dispatch) => {
     handleSetQuerys: (querys) => { dispatch(actions.setQuerys(querys)) },
     handleSetQueryAnswers: (answers) => { dispatch(actions.setQueryAnswers(answers)) },
     handleAddSurveyQuery: (queryKey, query) => { dispatch(actions.addSurveyQuery(queryKey, query)) },
-    handleAddSurveyQueryAnswer: (queryKey, answerKey, answer) => { dispatch(actions.addSurveyQueryAnswer(queryKey, answerKey, answer)) },
+    handleAddSurveyQueryAnswer: (queryKey, answer) => { dispatch(actions.addSurveyQueryAnswer(queryKey, answer)) },
     handleSetSurveyTitle: (title, updateDatetime) => { dispatch(actions.setSurveyTitle(title, updateDatetime)) },
     handleSetServeyQueryTitle: (title, queryKey, index) => {dispatch(actions.setSurveyQueryTitle(title, queryKey, index)) },
     handleSetSurveyQueryAnswerType: (answerType, queryKey) => {dispatch(actions.setSurveyQueryAnswerType(answerType, queryKey)) },
     handleSetSurveyQueryAnswerToYesOrNo: (answerType, queryKey) => {dispatch(actions.setSurveyQueryAnswerToYesOrNo(answerType, queryKey)) },
-    handleSetSurveyAnswer: (answer, queryKey, answerKey, index) => {dispatch(actions.setSurveyAnswer(answer, queryKey, answerKey, index)) }
+    handleSetSurveyAnswer: (answer, queryKey, index) => {dispatch(actions.setSurveyAnswer(answer, queryKey, index)) }
   };
 };
 

@@ -49,7 +49,6 @@ export default function surveyDetail(state = initialState, action){
             ...state.surveyDetailQuerysAnswers,
             {
               'queryKey': action.queryKey,
-              'answerKey': action.answerKey,
               'answer': action.answer
             }
           ]

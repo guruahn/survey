@@ -29,7 +29,7 @@ class Query extends Component {
       if(this.props.answerData && this.props.answerData.length > 0){
         return this.props.answerData.map((answers, i) => {
           if(answers.queryKey == queryKey) {
-            //console.log('answers', answers)
+            console.log('answers', answers)
             return (
               <Answers
                 key={`answer-${queryKey}-${i}`}

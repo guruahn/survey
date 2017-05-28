@@ -19,8 +19,8 @@ class Answers extends Component {
                   key={`${answers.answerKey}-${i}`}
                   data-query-index={this.props.index}
                   data-answer-index={i}
-                  onChange={(e) => this.props.onChangeAnswerTitle(e, this.props.queryKey, answers.answerKey, i)}
-                  onBlur={(e) => this.props.onBlurAnswerTitle(this.props.queryKey, answers.answerKey, this.props.answerIndex)}
+                  onChange={(e) => this.props.onChangeAnswerTitle(e, this.props.queryKey, i)}
+                  onBlur={(e) => this.props.onBlurAnswerTitle(this.props.queryKey, this.props.answerIndex)}
                   disabled={this.props.isDisable}/>
             )
           })

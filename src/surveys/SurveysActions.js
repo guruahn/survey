@@ -39,10 +39,10 @@ export function addSurveyQuery (queryKey, query){
   }
 }
 
-export function addSurveyQueryAnswer (queryKey, answerKey, answer){
+export function addSurveyQueryAnswer (queryKey, answer){
   return {
     type: types.ADD_SURVEY_QUERY_ANSWER,
-    queryKey, answerKey, answer
+    queryKey, answer
   }
 }
 
@@ -74,9 +74,9 @@ export function setSurveyQueryAnswerToYesOrNo (answerType, queryKey){
   }
 }
 
-export function setSurveyAnswer (answer, queryKey, answerKey, index){
+export function setSurveyAnswer (answer, queryKey, index){
   return {
     type: types.SET_SURVEY_ANSWER,
-    answer, queryKey, answerKey, index
+    answer, queryKey, index
   }
 }

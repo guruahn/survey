@@ -66,13 +66,11 @@ export const dummy = {
   ],
   'surveyDetailQuerysAnswers':[
     {
-      'queryKey': "-KidQ672jYnfsuhS-5EA"
-      'answerKey': '-asasfasfasdf-5EA',
+      'queryKey': "-KidQ672jYnfsuhS-5EA",
       'answer': ['yes', 'no']
     },
     {
-      'queryKey': "-KidQ672jYnfsuhS-5EA"
-      'answerKey': '-KidQdfsfsdf672jYnfsuhS-5EA',
+      'queryKey': "-KidQ672jYnfsuhS-5EA",
       'answer': ['yes', 'no']
     }
   ]
