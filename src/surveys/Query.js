@@ -63,7 +63,7 @@ class Query extends Component {
             <label>답변형태</label>
             <select
               value={this.props.queryData.value.answerType}
-              onChange={this.onChangeQueryAnswerType}
+              onChange={(e) => this.props.onChangeQueryAnswerType(e, this.props.queryData.key )}
               >{printQueryType()}</select>
 
           </div>

@@ -80,7 +80,26 @@ export default function surveyDetail(state = initialState, action){
               } : answerObj)
           ]
         }
-
+      case types.SET_SURVEY_QUERY_ANSWER_TYPE:
+        return {
+          ...state, surveyDetailQuerys: [
+            ...state.surveyDetailQuerys.map(
+              query => query.key === action.queryKey ? {
+                ...query, value: {
+                  ...query.value, answerType: action.answerType
+                }
+              } : query)
+          ]
+        }
+      case types.SET_SURVEY_QUERY_ANSWER_TO_YES_OR_NO:
+        return {
+          ...state, surveyDetailQuerysAnswers: [
+            ...state.surveyDetailQuerysAnswers.map(
+              answerObj => answerObj.queryKey === action.queryKey ? {
+                ...answerObj, answer: ["yes", "no"]
+              } : answerObj)
+          ]
+        }
       default:
         return state;
     }

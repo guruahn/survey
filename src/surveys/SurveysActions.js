@@ -60,10 +60,17 @@ export function setSurveyQueryTitle (title, queryKey, index){
   }
 }
 
-export function setSurveyQueryAnswerType (answerType, index){
+export function setSurveyQueryAnswerType (answerType, queryKey){
   return {
     type: types.SET_SURVEY_QUERY_ANSWER_TYPE,
-    answerType, index
+    answerType, queryKey
+  }
+}
+
+export function setSurveyQueryAnswerToYesOrNo (answerType, queryKey){
+  return {
+    type: types. SET_SURVEY_QUERY_ANSWER_TO_YES_OR_NO,
+    answerType, queryKey
   }
 }
 

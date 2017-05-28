@@ -20,7 +20,7 @@ class SurveyDetail extends Component {
     this.saveSurveyQueryTitle = this.saveSurveyQueryTitle.bind(this);
 
     this.setSurveyQueryTitle = this.setSurveyQueryTitle.bind(this);
-    this.setSurveyQueryAnswerType = this.setSurveyQueryAnswerType.bind(this);
+    this.onChangeQueryAnswerType = this.onChangeQueryAnswerType.bind(this);
     this.setAnswer = this.setAnswer.bind(this);
     this.saveAnswer = this.saveAnswer.bind(this);
   }
@@ -141,9 +141,13 @@ class SurveyDetail extends Component {
         console.log("Error updating data:", error);
     });
   }
-  setSurveyQueryAnswerType(e){
-    const index = e.target.attributes.getNamedItem('data-index').value
-    this.props.handleSetSurveyQueryAnswerType(e.target.value, index)
+  onChangeQueryAnswerType(e, queryKey){
+    //TODO e.target.value 가 yesOrrNo이면 선택항목 yes, no로 리셋.
+    if(e.target.value == "yesOrNo"){
+      this.props.handleSetSurveyQueryAnswerToYesOrNo(e.target.value, queryKey)
+      //this.saveAnswer(queryKey, )TODO surveyDetailQuerysAnswers 구조변경 필요
+    }
+    this.props.handleSetSurveyQueryAnswerType(e.target.value, queryKey)
   }
   setAnswer(e, queryKey, answerKey, index){
     this.props.handleSetSurveyAnswer(e.target.value, queryKey, answerKey, index)
@@ -180,6 +184,7 @@ class SurveyDetail extends Component {
               onBlurQueryTitle={this.saveSurveyQueryTitle}
               onChangeAnswerTitle={this.setAnswer}
               onBlurAnswerTitle={this.saveAnswer}
+              onChangeQueryAnswerType={this.onChangeQueryAnswerType}
               />
 
           )
@@ -228,7 +233,8 @@ const mapDispatchToProps = (dispatch) => {
     handleAddSurveyQueryAnswer: (queryKey, answerKey, answer) => { dispatch(actions.addSurveyQueryAnswer(queryKey, answerKey, answer)) },
     handleSetSurveyTitle: (title, updateDatetime) => { dispatch(actions.setSurveyTitle(title, updateDatetime)) },
     handleSetServeyQueryTitle: (title, queryKey, index) => {dispatch(actions.setSurveyQueryTitle(title, queryKey, index)) },
-    handleSetSurveyQueryAnswerType: (answerType, index) => {dispatch(actions.setSurveyQueryAnswerType(answerType, index)) },
+    handleSetSurveyQueryAnswerType: (answerType, queryKey) => {dispatch(actions.setSurveyQueryAnswerType(answerType, queryKey)) },
+    handleSetSurveyQueryAnswerToYesOrNo: (answerType, queryKey) => {dispatch(actions.setSurveyQueryAnswerToYesOrNo(answerType, queryKey)) },
     handleSetSurveyAnswer: (answer, queryKey, answerKey, index) => {dispatch(actions.setSurveyAnswer(answer, queryKey, answerKey, index)) }
   };
 };
