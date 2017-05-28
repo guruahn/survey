@@ -67,6 +67,19 @@ export default function surveyDetail(state = initialState, action){
           ]
         }
 
+      case types.SET_SURVEY_ANSWER:
+        return {
+          ...state, surveyDetailQuerysAnswers: [
+            ...state.surveyDetailQuerysAnswers.map(
+              answerObj => answerObj.queryKey === action.queryKey ? {
+                ...answerObj, answer: [
+                  ...answerObj.answer.map(
+                    (answer, i) => i == action.index ? action.answer : answer
+                  )
+                ]
+              } : answerObj)
+          ]
+        }
 
       default:
         return state;

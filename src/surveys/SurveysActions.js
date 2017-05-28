@@ -67,9 +67,9 @@ export function setSurveyQueryAnswerType (answerType, index){
   }
 }
 
-export function setSurveyAnswer (answer, queryIndex, answerIndex){
+export function setSurveyAnswer (answer, queryKey, answerKey, index){
   return {
     type: types.SET_SURVEY_ANSWER,
-    answer, queryIndex, answerIndex
+    answer, queryKey, answerKey, index
   }
 }

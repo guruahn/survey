@@ -66,18 +66,14 @@ export const dummy = {
   ],
   'surveyDetailQuerysAnswers':[
     {
-      "-KidQ672jYnfsuhS-5EA":{
-        'queryKey': "-KidQ672jYnfsuhS-5EA"
-        'value': 'yes',
-        'order': 0
-      }
+      'queryKey': "-KidQ672jYnfsuhS-5EA"
+      'answerKey': '-asasfasfasdf-5EA',
+      'answer': ['yes', 'no']
     },
     {
-      "-KidQ602jYnfsuhS-5EA":{
-        'queryKey': "-KidQ672jYnfsuhS-5EA"
-        'value': 'no',
-        'order': 1
-      }
+      'queryKey': "-KidQ672jYnfsuhS-5EA"
+      'answerKey': '-KidQdfsfsdf672jYnfsuhS-5EA',
+      'answer': ['yes', 'no']
     }
   ]
 }

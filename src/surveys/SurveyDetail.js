@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { database, firebaseAuth, datetimeFormat } from '../config/constants';
 import Loading from 'react-loading-animation';
 import moment from 'moment';
+import Q from 'q';
 
 import Query from './Query.js';
 
@@ -21,6 +22,7 @@ class SurveyDetail extends Component {
     this.setSurveyQueryTitle = this.setSurveyQueryTitle.bind(this);
     this.setSurveyQueryAnswerType = this.setSurveyQueryAnswerType.bind(this);
     this.setAnswer = this.setAnswer.bind(this);
+    this.saveAnswer = this.saveAnswer.bind(this);
   }
 
   getServey(){
@@ -45,7 +47,6 @@ class SurveyDetail extends Component {
         querys.push({key:data.key, value:data.val()})
       });
       //console.log(myBooks)
-      _this.props.handleSetQuerys(querys);
       _this.getQueryAnswers(querys);
     });
   }
@@ -66,6 +67,7 @@ class SurveyDetail extends Component {
         });
         //console.log(myBooks)
         _this.props.handleSetQueryAnswers(answers);
+        _this.props.handleSetQuerys(querys);
       });
     });
   }
@@ -125,7 +127,7 @@ class SurveyDetail extends Component {
     });
   }
   setSurveyQueryTitle(e, queryKey, index){
-    console.log('index',index)
+    //console.log('index',index)
     this.props.handleSetServeyQueryTitle(e.target.value, queryKey, index)
   }
   saveSurveyQueryTitle(index){
@@ -142,10 +144,20 @@ class SurveyDetail extends Component {
     const index = e.target.attributes.getNamedItem('data-index').value
     this.props.handleSetSurveyQueryAnswerType(e.target.value, index)
   }
-  setAnswer(e){
-    const queryIndex = e.target.attributes.getNamedItem('data-query-index').value
-    const answerIndex = e.target.attributes.getNamedItem('data-answer-index').value
-    this.props.handleSetSurveyAnswer(e.target.value, queryIndex, answerIndex)
+  setAnswer(e, queryKey, answerKey, index){
+    this.props.handleSetSurveyAnswer(e.target.value, queryKey, answerKey, index)
+  }
+  saveAnswer(queryKey, answerKey, answerIndex){
+    const updates = {};
+    let _this = this;
+    //console.log('answerIndex', this.props.surveyDetailQuerys)
+    console.log(this.props)
+    updates['/query-answers/' + queryKey + '/' + answerKey] = this.props.surveyDetailQuerysAnswers[answerIndex].answer
+    database.ref().update(updates).then(function(){
+      console.log('update complete')
+    }, function(error) {
+        console.log("Error updating data:", error);
+    });
   }
 
   componentDidMount(){
@@ -155,15 +167,20 @@ class SurveyDetail extends Component {
 
   render() {
 
-    const printQueryOfSurvey = (querys) => {
+    const printQueryOfSurvey = (querys, answers) => {
       //console.log('surveyDetail', this.props.surveyDetailQuerys)
       if(querys && querys.length > 0){
         return querys.map((query, i) => {
           return (
             <Query key={i} index={i}
-              data={query}
+              queryData={query}
+              answerData={this.props.surveyDetailQuerysAnswers}
               onChangeQueryTitle={this.setSurveyQueryTitle}
-              onBlurQueryTitle={this.saveSurveyQueryTitle}/>
+              onBlurQueryTitle={this.saveSurveyQueryTitle}
+              onChangeAnswerTitle={this.setAnswer}
+              onBlurAnswerTitle={this.saveAnswer}
+              />
+
           )
         });
       }
@@ -211,7 +228,7 @@ const mapDispatchToProps = (dispatch) => {
     handleSetSurveyTitle: (title, updateDatetime) => { dispatch(actions.setSurveyTitle(title, updateDatetime)) },
     handleSetServeyQueryTitle: (title, queryKey, index) => {dispatch(actions.setSurveyQueryTitle(title, queryKey, index)) },
     handleSetSurveyQueryAnswerType: (answerType, index) => {dispatch(actions.setSurveyQueryAnswerType(answerType, index)) },
-    handleSetSurveyAnswer: (answer, queryIndex, answerIndex) => {dispatch(actions.setSurveyAnswer(answer, queryIndex, answerIndex)) }
+    handleSetSurveyAnswer: (answer, queryKey, answerKey, index) => {dispatch(actions.setSurveyAnswer(answer, queryKey, answerKey, index)) }
   };
 };
 
