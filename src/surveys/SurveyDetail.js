@@ -64,9 +64,10 @@ class SurveyDetail extends Component {
         snapshot.forEach(function(data){
           //console.log("The " + data.key + " dinosaur's score is " + JSON.stringify(data.val()));
           answers.push({queryKey:query.key, answerKey:data.key, answer:data.val()})
+          _this.props.handleAddSurveyQueryAnswer(query.key, data.key, data.val());
         });
         //console.log(myBooks)
-        _this.props.handleSetQueryAnswers(answers);
+
         _this.props.handleSetQuerys(querys);
       });
     });
