@@ -16,7 +16,7 @@ class SurveyDetail extends Component {
     this.addAnswer = this.addAnswer.bind(this);
     this.setSurveyTitle = this.setSurveyTitle.bind(this);
     this.saveSurveyTitle = this.saveSurveyTitle.bind(this);
-
+    this.saveSurveyQueryTitle = this.saveSurveyQueryTitle.bind(this);
 
     this.setSurveyQueryTitle = this.setSurveyQueryTitle.bind(this);
     this.setSurveyQueryAnswerType = this.setSurveyQueryAnswerType.bind(this);
@@ -128,6 +128,16 @@ class SurveyDetail extends Component {
     console.log('index',index)
     this.props.handleSetServeyQueryTitle(e.target.value, queryKey, index)
   }
+  saveSurveyQueryTitle(index){
+    const updates = {};
+    let _this = this;
+    updates['/survey-querys/' + this.props.surveyDetail.key + '/' + this.props.surveyDetailQuerys[index].key] = this.props.surveyDetailQuerys[index].value
+    database.ref().update(updates).then(function(){
+      console.log('update complete')
+    }, function(error) {
+        console.log("Error updating data:", error);
+    });
+  }
   setSurveyQueryAnswerType(e){
     const index = e.target.attributes.getNamedItem('data-index').value
     this.props.handleSetSurveyQueryAnswerType(e.target.value, index)
@@ -152,7 +162,8 @@ class SurveyDetail extends Component {
           return (
             <Query key={i} index={i}
               data={query}
-              onChangeSetAnswer={this.setSurveyQueryTitle}/>
+              onChangeQueryTitle={this.setSurveyQueryTitle}
+              onBlurQueryTitle={this.saveSurveyQueryTitle}/>
           )
         });
       }

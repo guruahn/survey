@@ -38,7 +38,12 @@ class Query extends Component {
       <div>
         {}
         <div data-name="query">
-          <lable>질문내용</lable><input type="text" value={this.props.data.value.question} onChange={(e) => this.props.onChangeSetAnswer(e, this.props.data.key, this.props.index)}
+          <lable>질문내용</lable>
+          <input
+            type="text"
+            value={this.props.data.value.question}
+            onChange={(e) => this.props.onChangeQueryTitle(e, this.props.data.key, this.props.index)}
+            onBlur={() => this.props.onBlurQueryTitle(this.props.index)}
           />
 
 
