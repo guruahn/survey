@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { database, firebaseAuth, answerTypes } from '../config/constants';
+import { database, firebaseAuth, datetimeFormat } from '../config/constants';
 import Loading from 'react-loading-animation';
+import moment from 'moment';
 
 import Query from './Query.js';
 
@@ -14,6 +15,9 @@ class SurveyDetail extends Component {
     this.addQuery = this.addQuery.bind(this);
     this.addAnswer = this.addAnswer.bind(this);
     this.setSurveyTitle = this.setSurveyTitle.bind(this);
+    this.saveSurveyTitle = this.saveSurveyTitle.bind(this);
+
+
     this.setSurveyQueryTitle = this.setSurveyQueryTitle.bind(this);
     this.setSurveyQueryAnswerType = this.setSurveyQueryAnswerType.bind(this);
     this.setAnswer = this.setAnswer.bind(this);
@@ -24,8 +28,8 @@ class SurveyDetail extends Component {
     let surveyRef = database.ref('/user-surveys/' + this.props.user.uid + '/' + this.props.match.params.surveyKey);
     //console.log('start getServey!!!!')
     surveyRef.once('value').then(function(snapshot, key) {
-      //console.log(snapshot.val())
-      _this.props.handleSetSurvey(snapshot.val())
+      //console.log('key', snapshot.key)
+      _this.props.handleSetSurvey(snapshot.key, snapshot.val())
     });
   }
 
@@ -108,11 +112,21 @@ class SurveyDetail extends Component {
   }
 
   setSurveyTitle(e){
-    this.props.handleSetSurveyTitle(e.target.value)
+    this.props.handleSetSurveyTitle(e.target.value, moment().format(datetimeFormat) )
   }
-  setSurveyQueryTitle(e){
-    const index = e.target.attributes.getNamedItem('data-index').value
-    this.props.handleSetServeyQueryTitle(e.target.value, index)
+  saveSurveyTitle(){
+    const updates = {};
+    let _this = this;
+    updates['/user-surveys/' + this.props.user.uid + '/' + this.props.surveyDetail.key] = this.props.surveyDetail.value
+    database.ref().update(updates).then(function(){
+      console.log('update complete')
+    }, function(error) {
+        console.log("Error updating data:", error);
+    });
+  }
+  setSurveyQueryTitle(e, queryKey, index){
+    console.log('index',index)
+    this.props.handleSetServeyQueryTitle(e.target.value, queryKey, index)
   }
   setSurveyQueryAnswerType(e){
     const index = e.target.attributes.getNamedItem('data-index').value
@@ -132,11 +146,13 @@ class SurveyDetail extends Component {
   render() {
 
     const printQueryOfSurvey = (querys) => {
-      console.log('surveyDetail', this.props.surveyDetailQuerys)
+      //console.log('surveyDetail', this.props.surveyDetailQuerys)
       if(querys && querys.length > 0){
         return querys.map((query, i) => {
           return (
-            <Query key={i} data={query}/>
+            <Query key={i} index={i}
+              data={query}
+              onChangeSetAnswer={this.setSurveyQueryTitle}/>
           )
         });
       }
@@ -147,7 +163,11 @@ class SurveyDetail extends Component {
       <div className="u-maxWidth700 u-marginAuto">
         <h1>설문지 작성</h1>
         <div>
-          <input type="text" value={this.props.surveyDetail.title} onChange={this.setSurveyTitle} name="title" data-name="title"/>
+          <input
+            type="text" name="title" data-name="title"
+            value={this.props.surveyDetail.value.title}
+            onChange={this.setSurveyTitle}
+            onBlur={this.saveSurveyTitle} />
         </div>
         <h2>질문</h2>
         {printQueryOfSurvey(this.props.surveyDetailQuerys)}
@@ -172,13 +192,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleSetSurvey: (survey) => { dispatch(actions.setSurvey(survey)) },
+    handleSetSurvey: (key, survey) => { dispatch(actions.setSurvey(key, survey)) },
     handleSetQuerys: (querys) => { dispatch(actions.setQuerys(querys)) },
     handleSetQueryAnswers: (answers) => { dispatch(actions.setQueryAnswers(answers)) },
     handleAddSurveyQuery: (queryKey, query) => { dispatch(actions.addSurveyQuery(queryKey, query)) },
     handleAddSurveyQueryAnswer: (queryKey, answerKey, answer) => { dispatch(actions.addSurveyQueryAnswer(queryKey, answerKey, answer)) },
-    handleSetSurveyTitle: (title) => { dispatch(actions.setSurveyTitle(title)) },
-    handleSetServeyQueryTitle: (title, index) => {dispatch(actions.setSurveyQueryTitle(title, index)) },
+    handleSetSurveyTitle: (title, updateDatetime) => { dispatch(actions.setSurveyTitle(title, updateDatetime)) },
+    handleSetServeyQueryTitle: (title, queryKey, index) => {dispatch(actions.setSurveyQueryTitle(title, queryKey, index)) },
     handleSetSurveyQueryAnswerType: (answerType, index) => {dispatch(actions.setSurveyQueryAnswerType(answerType, index)) },
     handleSetSurveyAnswer: (answer, queryIndex, answerIndex) => {dispatch(actions.setSurveyAnswer(answer, queryIndex, answerIndex)) }
   };

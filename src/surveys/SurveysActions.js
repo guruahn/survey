@@ -11,10 +11,10 @@ export function setMySurveys (surveys){
   };
 }
 
-export function setSurvey (survey){
+export function setSurvey (key, survey){
   return {
     type: types.SET_SURVEY,
-    survey
+    key, survey
   }
 }
 
@@ -46,17 +46,17 @@ export function addSurveyQueryAnswer (queryKey, answerKey, answer){
   }
 }
 
-export function setSurveyTitle (title){
+export function setSurveyTitle (title, updateDatetime){
   return {
     type: types.SET_SURVEY_TITLE,
-    title
+    title, updateDatetime
   }
 }
 
-export function setSurveyQueryTitle (title, index){
+export function setSurveyQueryTitle (title, queryKey, index){
   return {
     type: types.SET_SURVEY_QUERY_TITLE,
-    title, index
+    title, queryKey, index
   }
 }
 

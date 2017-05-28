@@ -11,7 +11,7 @@ class Query extends Component {
         return (
           <input
             value={answer}
-            onChange={this.setAnswer}
+
             key={i}
             data-query-index={queryIndex}
             data-answer-index={i}/>
@@ -38,8 +38,8 @@ class Query extends Component {
       <div>
         {}
         <div data-name="query">
-          <lable>질문내용</lable><input type="text" value={this.props.data.value.question} onChange={this.props.onChangeQueryTitle}
-          data-index={this.props.key} />
+          <lable>질문내용</lable><input type="text" value={this.props.data.value.question} onChange={(e) => this.props.onChangeSetAnswer(e, this.props.data.key, this.props.index)}
+          />
 
 
 

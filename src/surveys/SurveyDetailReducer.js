@@ -2,16 +2,10 @@ import * as types from './SurveysActionTypes';
 
 const initialState = {
   surveyDetail: {
-    "title": "",
-    "updateDatetime": "2017-05-25 23:40:17.097",
-    "querys": {
-      0 :
-        {
-          "question": "질문을 입력하세요",
-          "answerType": "yesOrNo",
-          "order": 0,
-          'answers':{0:'yes', 1:'no'}
-        }
+    "key":"",
+    "value":{
+      "title": "",
+      "updateDatetime": "2017-05-25 23:40:17.097"
     }
   },
   surveyDetailQuerys:[],
@@ -21,15 +15,14 @@ const initialState = {
 export default function surveyDetail(state = initialState, action){
     switch (action.type) {
       case types.SET_SURVEY:
-        return { ...state, surveyDetail: action.survey }
+        return { ...state, surveyDetail: {key: action.key, value: action.survey }}
       case types.SET_SURVEY_TITLE:
         return {
-          ...state, surveyDetail: {
-            ...state.surveyDetail, title: action.title
+          ...state, surveyDetail:{
+            ...state.surveyDetail, value: { title: action.title , updateDatetime: action.updateDatetime}
           }
         }
       case types.SET_QUERYS:
-        console.log('set query', action)
         return {
           ...state,
           surveyDetailQuerys: action.querys
@@ -64,30 +57,16 @@ export default function surveyDetail(state = initialState, action){
 
       case types.SET_SURVEY_QUERY_TITLE:
         return {
-          ...state, surveyDetail: {
-            ...state.surveyDetail, querys: [
-              ...state.surveyDetail.querys.filter((query, i) => {
-                if( i === Number(action.index) ) {
-                  query.question = action.title
-                  return query
+          ...state, surveyDetailQuerys: [
+            ...state.surveyDetailQuerys.map(
+              query => query.key === action.queryKey ? {
+                ...query, value: {
+                  ...query.value, question: action.title
                 }
-              })
-            ]
-          }
+              } : query)
+          ]
         }
-      case types.SET_SURVEY_QUERY_ANSWER_TYPE:
-        return {
-          ...state, surveyDetail: {
-            ...state.surveyDetail, querys: [
-              ...state.surveyDetail.querys.filter((query, i) => {
-                if( i === Number(action.index) ) {
-                  query.answerType = action.answerType
-                  return query
-                }
-              })
-            ]
-          }
-        }
+
 
       default:
         return state;

@@ -50,20 +50,15 @@ export const dummy = {
     }
   ],
   'surveyDetail': {
-    "title": "설문제목을 입력하세요.",
-    "updateDatetime": "2017-05-25 23:40:17.097",
-    "querys": {
-      0 :
-        {
-          "question": "질문을 입력하세요",
-          "answerType": "yesOrNo",
-          "order": 0,
-          'answers':{0:'yes', 1:'no'}
-        }
+    "key": "",
+    "value": {
+      "title": "설문제목을 입력하세요.",
+      "updateDatetime": "2017-05-25 23:40:17.097"
     }
   },
   'surveyDetailQuerys':[
-    "-KidQ672jYnfsuhS-5EA":{
+    "key": "-KidQ672jYnfsuhS-5EA",
+    "value" :{
       "question": "질문을 입력하세요",
       "answerType": "yesOrNo",
       "order": 0
