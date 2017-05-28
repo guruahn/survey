@@ -134,13 +134,28 @@ class SurveyDetail extends Component {
         console.log("Error updating data:", error);
     });
   }
-  onChangeQueryAnswerType(e, queryKey){
+  onChangeQueryAnswerType(e, queryKey, index){
     //TODO e.target.value 가 yesOrrNo이면 선택항목 yes, no로 리셋.
     if(e.target.value == "yesOrNo"){
       this.props.handleSetSurveyQueryAnswerToYesOrNo(e.target.value, queryKey)
-      //this.saveAnswer(queryKey, )TODO surveyDetailQuerysAnswers 구조변경 필요
+      //TODO this.saveAnswer(queryKey) answer 세트를 통으로 넣기.
     }
     this.props.handleSetSurveyQueryAnswerType(e.target.value, queryKey)
+    this.saveAnswerType(e.target.value, queryKey, index)
+  }
+  saveAnswerType(answerType, queryKey, index){
+    const updates = {};
+    let _this = this;
+    updates['/survey-querys/' + this.props.surveyDetail.key + '/' + queryKey] = {
+      'answerType': answerType,
+      'order': this.props.surveyDetailQuerys[index].value.order,
+      'question': this.props.surveyDetailQuerys[index].value.question
+    }
+    database.ref().update(updates).then(function(){
+      console.log('update complete')
+    }, function(error) {
+        console.log("Error updating data:", error);
+    });
   }
   setAnswer(e, queryKey, index){
     this.props.handleSetSurveyAnswer(e.target.value, queryKey, index)
