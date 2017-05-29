@@ -5,7 +5,7 @@ const initialState = {
     "key":"",
     "value":{
       "title": "",
-      "updateDatetime": "2017-05-25 23:40:17.097"
+      "updateDatetime": ""
     }
   },
   surveyDetailQuerys:[],

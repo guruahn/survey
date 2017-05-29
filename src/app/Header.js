@@ -64,9 +64,7 @@ class Header extends Component {
               <Link to="/" className="">Survey</Link>
             </div>{ /*.header-block*/ }
             <div className="header-block header-block__menus u-floatRight">
-              <div className="header-menu u-inlineBlock">
-                <Link to="/addSurvey" replace >Make Survey</Link>
-              </div>
+              
               <div className="header-menu u-inlineBlock">
                 <Link
                   to="#"

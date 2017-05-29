@@ -69,10 +69,9 @@ class SurveyDetail extends Component {
         });
         _this.props.handleAddSurveyQueryAnswer(query.key, answers);
         //console.log(myBooks)
-
-        _this.props.handleSetQuerys(querys);
       });
     });
+    _this.props.handleSetQuerys(querys);
   }
 
   addQuery(){
