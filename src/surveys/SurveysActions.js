@@ -67,10 +67,10 @@ export function setSurveyQueryAnswerType (answerType, queryKey){
   }
 }
 
-export function setSurveyQueryAnswerToYesOrNo (answerType, queryKey){
+export function setSurveyAnswers (answers, queryKey){
   return {
-    type: types. SET_SURVEY_QUERY_ANSWER_TO_YES_OR_NO,
-    answerType, queryKey
+    type: types. SET_SURVEY_ANSWERS,
+    answers, queryKey
   }
 }
 

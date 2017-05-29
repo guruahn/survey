@@ -14,8 +14,9 @@ class SurveyDetail extends Component {
     super(props);
     this.getServey = this.getServey.bind(this);
     this.addQuery = this.addQuery.bind(this);
-    this.addNewAnswer = this.addNewAnswer.bind(this);
+    this.resetNewAnswer = this.resetNewAnswer.bind(this);
     this.addAnswer = this.addAnswer.bind(this);
+    this.findAnswersByQuery = this.findAnswersByQuery.bind(this);
     this.setSurveyTitle = this.setSurveyTitle.bind(this);
     this.saveSurveyTitle = this.saveSurveyTitle.bind(this);
     this.saveSurveyQueryTitle = this.saveSurveyQueryTitle.bind(this);
@@ -89,20 +90,20 @@ class SurveyDetail extends Component {
     database.ref().update(updates).then(function(){
       //console.log('query update complete')
       _this.props.handleAddSurveyQuery(queryKey, query)
-      _this.addNewAnswer(queryKey)
+      _this.resetNewAnswer(queryKey)
     }, function(error) {
         console.log("Error query updating data:", error);
     });
   }
 
-  addNewAnswer(queryKey){
+  resetNewAnswer(queryKey){
     const updates = {};
     let _this = this;
     let answer = ['yes', 'no']
     updates['/query-answers/' + queryKey] = answer
     database.ref().update(updates).then(function(){
       //console.log('answer update complete')
-      _this.props.handleAddSurveyQueryAnswer(queryKey, answer)
+      _this.props.handleSetSurveyAnswers(answer, queryKey)
     }, function(error) {
         console.log("Error answer updating data:", error);
     });
@@ -111,14 +112,16 @@ class SurveyDetail extends Component {
   addAnswer(queryKey, index){
     const updates = {};
     let _this = this;
-    let answer = ['yes', 'no']
-    // updates['/query-answers/' + queryKey] = answer
-    // database.ref().update(updates).then(function(){
-    //   //console.log('answer update complete')
-    //   _this.props.handleAddSurveyQueryAnswer(queryKey, answer)
-    // }, function(error) {
-    //     console.log("Error answer updating data:", error);
-    // });
+    let answers = this.findAnswersByQuery(queryKey)
+    answers.push('새 선택항목')
+    console.log('answers', answers)
+    updates['/query-answers/' + queryKey] = answers
+    database.ref().update(updates).then(function(){
+      //console.log('answer update complete')
+      _this.props.handleSetSurveyAnswers(answers, queryKey)
+    }, function(error) {
+        console.log("Error answer updating data:", error);
+    });
   }
 
   setSurveyTitle(e){
@@ -148,12 +151,19 @@ class SurveyDetail extends Component {
         console.log("Error updating data:", error);
     });
   }
+
+  findAnswersByQuery(queryKey){
+    let answers = []
+    this.props.surveyDetailQuerysAnswers.map((item) => {
+      if(item.queryKey === queryKey) answers = item.answer
+    })
+    return answers;
+  }
+
   onChangeQueryAnswerType(e, queryKey, index){
     //e.target.value 가 yesOrrNo이면 선택항목 yes, no로 리셋.
     if(e.target.value == "yesOrNo"){
-      this.props.handleSetSurveyQueryAnswerToYesOrNo(e.target.value, queryKey)
-      // yesOrNo answer 기본세트를 통으로 넣기.
-      this.saveAnswer(queryKey, index, answerTypes[0].answers)
+      this.resetNewAnswer(queryKey)
     }
     this.props.handleSetSurveyQueryAnswerType(e.target.value, queryKey)
     this.saveAnswerType(e.target.value, queryKey, index)
@@ -175,13 +185,11 @@ class SurveyDetail extends Component {
   setAnswer(e, queryKey, index){
     this.props.handleSetSurveyAnswer(e.target.value, queryKey, index)
   }
-  saveAnswer(queryKey, answerIndex, answer){
+  saveAnswer(queryKey, answerIndex){
     const updates = {};
     let _this = this;
-    if(typeof answer == 'undefined') answer = this.props.surveyDetailQuerysAnswers[answerIndex].answer
-    //console.log('answerIndex', this.props.surveyDetailQuerys)
     //console.log('answerIndex', answerIndex)
-    updates['/query-answers/' + queryKey] = answer
+    updates['/query-answers/' + queryKey] = this.props.surveyDetailQuerysAnswers[answerIndex].answer
     database.ref().update(updates).then(function(){
       console.log('update complete')
     }, function(error) {
@@ -259,7 +267,7 @@ const mapDispatchToProps = (dispatch) => {
     handleSetSurveyTitle: (title, updateDatetime) => { dispatch(actions.setSurveyTitle(title, updateDatetime)) },
     handleSetServeyQueryTitle: (title, queryKey, index) => {dispatch(actions.setSurveyQueryTitle(title, queryKey, index)) },
     handleSetSurveyQueryAnswerType: (answerType, queryKey) => {dispatch(actions.setSurveyQueryAnswerType(answerType, queryKey)) },
-    handleSetSurveyQueryAnswerToYesOrNo: (answerType, queryKey) => {dispatch(actions.setSurveyQueryAnswerToYesOrNo(answerType, queryKey)) },
+    handleSetSurveyAnswers: (answers, queryKey) => {dispatch(actions.setSurveyAnswers(answers, queryKey)) },
     handleSetSurveyAnswer: (answer, queryKey, index) => {dispatch(actions.setSurveyAnswer(answer, queryKey, index)) }
   };
 };

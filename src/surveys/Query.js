@@ -72,7 +72,7 @@ class Query extends Component {
             {setAnswer(this.props.queryData.key)}
             <button
               disabled={this.props.queryData.value.answerType == 'yesOrNo'? "disabled" : false}
-              onClick={this.props.onClickAddAnswer(this.props.queryData.key, this.props.index)}>
+              onClick={() => this.props.onClickAddAnswer(this.props.queryData.key, this.props.index)}>
               선택항목 추가
             </button>
           </div>

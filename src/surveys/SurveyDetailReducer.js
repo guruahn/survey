@@ -79,6 +79,15 @@ export default function surveyDetail(state = initialState, action){
               } : answerObj)
           ]
         }
+      case types.SET_SURVEY_ANSWERS:
+        return {
+          ...state, surveyDetailQuerysAnswers: [
+            ...state.surveyDetailQuerysAnswers.map(
+              answerObj => answerObj.queryKey === action.queryKey ? {
+                ...answerObj, answer: action.answers
+              } : answerObj)
+          ]
+        }
       case types.SET_SURVEY_QUERY_ANSWER_TYPE:
         return {
           ...state, surveyDetailQuerys: [
@@ -90,15 +99,7 @@ export default function surveyDetail(state = initialState, action){
               } : query)
           ]
         }
-      case types.SET_SURVEY_QUERY_ANSWER_TO_YES_OR_NO:
-        return {
-          ...state, surveyDetailQuerysAnswers: [
-            ...state.surveyDetailQuerysAnswers.map(
-              answerObj => answerObj.queryKey === action.queryKey ? {
-                ...answerObj, answer: ["yes", "no"]
-              } : answerObj)
-          ]
-        }
+
       default:
         return state;
     }
