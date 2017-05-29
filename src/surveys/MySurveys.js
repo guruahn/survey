@@ -64,7 +64,8 @@ class MySurveys extends Component {
           return (
             <li className={"list-group-item"} data-name="item" key={survey.key}>
               <Survey
-                underline={survey.value}
+                data={survey.value}
+                surveyKey={survey.key}
                 />
             </li>
           )
