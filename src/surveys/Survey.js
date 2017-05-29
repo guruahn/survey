@@ -6,13 +6,15 @@ class Survey extends Component {
         super(props);
     }
     render() {
+
         return(
             <div>
               {this.props.data.title} |
               8개 |
-              <Link to={`/mySurveys/${this.props.surveyKey}`} replace >수정하기</Link> |
-              <Link to={`/mySurveys/${this.props.surveyKey}`} replace >리포트</Link>
-              <Link to={`/mySurveys/${this.props.surveyKey}`} replace >배포주소</Link>
+              <Link to={`/mySurveys/${this.props.surveyKey}`} >수정하기</Link> |
+              <Link to={`/mySurveys/${this.props.surveyKey}`} >리포트</Link> |
+              <Link to={`/participate/${this.props.surveyKey}/${this.props.uid}`}>배포주소</Link>
+
             </div>
         );
     }

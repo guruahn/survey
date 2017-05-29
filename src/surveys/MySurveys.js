@@ -25,7 +25,7 @@ class MySurveys extends Component {
     let surveys = [];
     database.ref('/user-surveys/' + this.props.user.uid).once('value').then(function(snapshot) {
       snapshot.forEach(function(data){
-        console.log("surveys", JSON.stringify({key:data.key, value:data.val()}));
+        //console.log("surveys", JSON.stringify({key:data.key, value:data.val()}));
         surveys.push({key:data.key, value:data.val()})
       });
       _this.props.handleSetMySurveys(surveys)
@@ -66,6 +66,7 @@ class MySurveys extends Component {
               <Survey
                 data={survey.value}
                 surveyKey={survey.key}
+                uid={this.props.user.uid}
                 />
             </li>
           )

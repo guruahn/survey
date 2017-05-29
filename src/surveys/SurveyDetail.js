@@ -12,7 +12,7 @@ import * as actions from './SurveysActions';
 class SurveyDetail extends Component {
   constructor(props) {
     super(props);
-    this.getServey = this.getServey.bind(this);
+    this.getSurvey = this.getSurvey.bind(this);
     this.addQuery = this.addQuery.bind(this);
     this.resetNewAnswer = this.resetNewAnswer.bind(this);
     this.addAnswer = this.addAnswer.bind(this);
@@ -30,10 +30,10 @@ class SurveyDetail extends Component {
     // TODO 수동 저장 버튼기능
   }
 
-  getServey(){
+  getSurvey(){
     let _this = this
     let surveyRef = database.ref('/user-surveys/' + this.props.user.uid + '/' + this.props.match.params.surveyKey);
-    //console.log('start getServey!!!!')
+    //console.log('start getSurvey!!!!')
     surveyRef.once('value').then(function(snapshot, key) {
       //console.log('key', snapshot.key)
       _this.props.handleSetSurvey(snapshot.key, snapshot.val())
@@ -43,7 +43,6 @@ class SurveyDetail extends Component {
   getQuerys(){
     let _this = this
     let surveyQuerysRef = database.ref('/survey-querys/' + this.props.match.params.surveyKey);
-    //console.log('start getServey!!!!')
     surveyQuerysRef.once('value').then(function(snapshot, key) {
       //console.log(snapshot.val())
       let querys = []
@@ -58,7 +57,6 @@ class SurveyDetail extends Component {
 
   getQueryAnswers(querys){
     let _this = this
-    //console.log('start getServey!!!!')
     querys.forEach(function(query){
       //console.log('queryKey', query.key);
       //querys.push({key:data.key, value:data.val()})
@@ -213,7 +211,7 @@ class SurveyDetail extends Component {
   }
 
   componentDidMount(){
-    this.getServey()
+    this.getSurvey()
     this.getQuerys()
   }
 

@@ -57,6 +57,7 @@ class Query extends Component {
               value={this.props.queryData.value.question}
               onChange={(e) => this.props.onChangeQueryTitle(e, this.props.queryData.key, this.props.index)}
               onBlur={() => this.props.onBlurQueryTitle(this.props.index)}
+              disabled={this.props.isDeployed ? "disabled" : false}
             />
             </div>
           <div>
