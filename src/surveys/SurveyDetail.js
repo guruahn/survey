@@ -25,6 +25,9 @@ class SurveyDetail extends Component {
     this.onChangeQueryAnswerType = this.onChangeQueryAnswerType.bind(this);
     this.setAnswer = this.setAnswer.bind(this);
     this.saveAnswer = this.saveAnswer.bind(this);
+    this.goDeploy = this.goDeploy.bind(this);
+    // TODO update surveys updateDatetime, when updating anithing
+    // TODO 수동 저장 버튼기능
   }
 
   getServey(){
@@ -196,6 +199,19 @@ class SurveyDetail extends Component {
     });
   }
 
+  goDeploy(){
+    const updates = {};
+    let _this = this;
+    //console.log('answerIndex', answerIndex)
+    updates['/user-surveys/' + this.props.user.uid + '/' + this.props.match.params.surveyKey + '/isDeployed'] = true;
+    database.ref().update(updates).then(function(){
+      console.log('update complete')
+      _this.props.handleGoDeploy(moment().format(datetimeFormat))
+    }, function(error) {
+        console.log("Error updating data:", error);
+    });
+  }
+
   componentDidMount(){
     this.getServey()
     this.getQuerys()
@@ -217,8 +233,8 @@ class SurveyDetail extends Component {
               onBlurAnswerTitle={this.saveAnswer}
               onChangeQueryAnswerType={this.onChangeQueryAnswerType}
               onClickAddAnswer={this.addAnswer}
+              isDeployed={this.props.surveyDetail.value.isDeployed}
               />
-
           )
         });
       }
@@ -229,16 +245,30 @@ class SurveyDetail extends Component {
       <div className="u-maxWidth700 u-marginAuto">
         <h1>설문지 작성</h1>
         <div>
+          <button
+            disabled={this.props.surveyDetail.value.isDeployed ? "disabled" : false}>
+            저장하기
+          </button>
+          <button
+            onClick={this.goDeploy}
+            disabled={this.props.surveyDetail.value.isDeployed ? "disabled" : false}>
+            {this.props.surveyDetail.value.isDeployed ? "배포됨" : "배포하기"}
+          </button>
+        </div>
+        <div>
           <input
             type="text" name="title" data-name="title"
             value={this.props.surveyDetail.value.title}
             onChange={this.setSurveyTitle}
-            onBlur={this.saveSurveyTitle} />
+            onBlur={this.saveSurveyTitle}
+            disabled={this.props.surveyDetail.value.isDeployed ? "disabled" : false} />
         </div>
         <h2>질문</h2>
         {printQueryOfSurvey(this.props.surveyDetailQuerys)}
         <div>
-          <button onClick={this.addQuery}>
+          <button
+            onClick={this.addQuery}
+            disabled={this.props.surveyDetail.value.isDeployed ? "disabled" : false}>
             질문 추가
           </button>
         </div>
@@ -264,10 +294,11 @@ const mapDispatchToProps = (dispatch) => {
     handleAddSurveyQuery: (queryKey, query) => { dispatch(actions.addSurveyQuery(queryKey, query)) },
     handleAddSurveyQueryAnswer: (queryKey, answer) => { dispatch(actions.addSurveyQueryAnswer(queryKey, answer)) },
     handleSetSurveyTitle: (title, updateDatetime) => { dispatch(actions.setSurveyTitle(title, updateDatetime)) },
-    handleSetServeyQueryTitle: (title, queryKey, index) => {dispatch(actions.setSurveyQueryTitle(title, queryKey, index)) },
-    handleSetSurveyQueryAnswerType: (answerType, queryKey) => {dispatch(actions.setSurveyQueryAnswerType(answerType, queryKey)) },
-    handleSetSurveyAnswers: (answers, queryKey) => {dispatch(actions.setSurveyAnswers(answers, queryKey)) },
-    handleSetSurveyAnswer: (answer, queryKey, index) => {dispatch(actions.setSurveyAnswer(answer, queryKey, index)) }
+    handleSetServeyQueryTitle: (title, queryKey, index) => { dispatch(actions.setSurveyQueryTitle(title, queryKey, index)) },
+    handleSetSurveyQueryAnswerType: (answerType, queryKey) => { dispatch(actions.setSurveyQueryAnswerType(answerType, queryKey)) },
+    handleSetSurveyAnswers: (answers, queryKey) => { dispatch(actions.setSurveyAnswers(answers, queryKey)) },
+    handleSetSurveyAnswer: (answer, queryKey, index) => { dispatch(actions.setSurveyAnswer(answer, queryKey, index)) },
+    handleGoDeploy: (updateDatetime) => { dispatch(actions.goDeploy(updateDatetime)) }
   };
 };
 

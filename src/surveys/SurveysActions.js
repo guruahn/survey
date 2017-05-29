@@ -80,3 +80,10 @@ export function setSurveyAnswer (answer, queryKey, index){
     answer, queryKey, index
   }
 }
+
+export function goDeploy (updateDatetime) {
+  return {
+    type: types.GO_DEPLOY,
+    updateDatetime
+  }
+}

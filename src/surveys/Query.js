@@ -34,7 +34,7 @@ class Query extends Component {
               <Answers
                 key={`answer-${queryKey}-${i}`}
                 answerData={answers}
-                isDisable={this.props.queryData.value.answerType == 'yesOrNo'? "disabled" : false}
+                isDisable={ (this.props.queryData.value.answerType == 'yesOrNo' || this.props.isDeployed)? "disabled" : false}
                 queryKey={queryKey}
                 answerIndex={i}
                 onChangeAnswerTitle={this.props.onChangeAnswerTitle}
@@ -64,6 +64,7 @@ class Query extends Component {
             <select
               value={this.props.queryData.value.answerType}
               onChange={(e) => this.props.onChangeQueryAnswerType(e, this.props.queryData.key, this.props.index )}
+              disabled={this.props.isDeployed ? "disabled" : false}
               >{printQueryType()}</select>
 
           </div>
@@ -71,7 +72,7 @@ class Query extends Component {
             <label>선택항목</label>
             {setAnswer(this.props.queryData.key)}
             <button
-              disabled={this.props.queryData.value.answerType == 'yesOrNo'? "disabled" : false}
+              disabled={ (this.props.queryData.value.answerType == 'yesOrNo' || this.props.isDeployed) ? "disabled" : false }
               onClick={() => this.props.onClickAddAnswer(this.props.queryData.key, this.props.index)}>
               선택항목 추가
             </button>
