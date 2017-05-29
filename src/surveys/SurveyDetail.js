@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { database, firebaseAuth, datetimeFormat } from '../config/constants';
+import { database, firebaseAuth, datetimeFormat, answerTypes } from '../config/constants';
 import Loading from 'react-loading-animation';
 import moment from 'moment';
 import Q from 'q';
@@ -14,6 +14,7 @@ class SurveyDetail extends Component {
     super(props);
     this.getServey = this.getServey.bind(this);
     this.addQuery = this.addQuery.bind(this);
+    this.addNewAnswer = this.addNewAnswer.bind(this);
     this.addAnswer = this.addAnswer.bind(this);
     this.setSurveyTitle = this.setSurveyTitle.bind(this);
     this.saveSurveyTitle = this.saveSurveyTitle.bind(this);
@@ -88,13 +89,13 @@ class SurveyDetail extends Component {
     database.ref().update(updates).then(function(){
       //console.log('query update complete')
       _this.props.handleAddSurveyQuery(queryKey, query)
-      _this.addAnswer(queryKey)
+      _this.addNewAnswer(queryKey)
     }, function(error) {
         console.log("Error query updating data:", error);
     });
   }
 
-  addAnswer(queryKey){
+  addNewAnswer(queryKey){
     const updates = {};
     let _this = this;
     let answer = ['yes', 'no']
@@ -105,6 +106,19 @@ class SurveyDetail extends Component {
     }, function(error) {
         console.log("Error answer updating data:", error);
     });
+  }
+
+  addAnswer(queryKey, index){
+    const updates = {};
+    let _this = this;
+    let answer = ['yes', 'no']
+    // updates['/query-answers/' + queryKey] = answer
+    // database.ref().update(updates).then(function(){
+    //   //console.log('answer update complete')
+    //   _this.props.handleAddSurveyQueryAnswer(queryKey, answer)
+    // }, function(error) {
+    //     console.log("Error answer updating data:", error);
+    // });
   }
 
   setSurveyTitle(e){
@@ -135,10 +149,11 @@ class SurveyDetail extends Component {
     });
   }
   onChangeQueryAnswerType(e, queryKey, index){
-    //TODO e.target.value 가 yesOrrNo이면 선택항목 yes, no로 리셋.
+    //e.target.value 가 yesOrrNo이면 선택항목 yes, no로 리셋.
     if(e.target.value == "yesOrNo"){
       this.props.handleSetSurveyQueryAnswerToYesOrNo(e.target.value, queryKey)
-      //TODO this.saveAnswer(queryKey) answer 세트를 통으로 넣기.
+      // yesOrNo answer 기본세트를 통으로 넣기.
+      this.saveAnswer(queryKey, index, answerTypes[0].answers)
     }
     this.props.handleSetSurveyQueryAnswerType(e.target.value, queryKey)
     this.saveAnswerType(e.target.value, queryKey, index)
@@ -160,12 +175,13 @@ class SurveyDetail extends Component {
   setAnswer(e, queryKey, index){
     this.props.handleSetSurveyAnswer(e.target.value, queryKey, index)
   }
-  saveAnswer(queryKey, answerIndex){
+  saveAnswer(queryKey, answerIndex, answer){
     const updates = {};
     let _this = this;
+    if(typeof answer == 'undefined') answer = this.props.surveyDetailQuerysAnswers[answerIndex].answer
     //console.log('answerIndex', this.props.surveyDetailQuerys)
-    console.log('answerIndex', answerIndex)
-    updates['/query-answers/' + queryKey] = this.props.surveyDetailQuerysAnswers[answerIndex].answer
+    //console.log('answerIndex', answerIndex)
+    updates['/query-answers/' + queryKey] = answer
     database.ref().update(updates).then(function(){
       console.log('update complete')
     }, function(error) {
@@ -193,6 +209,7 @@ class SurveyDetail extends Component {
               onChangeAnswerTitle={this.setAnswer}
               onBlurAnswerTitle={this.saveAnswer}
               onChangeQueryAnswerType={this.onChangeQueryAnswerType}
+              onClickAddAnswer={this.addAnswer}
               />
 
           )
