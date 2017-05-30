@@ -75,7 +75,6 @@ export function setSurveyAnswers (answers, queryKey){
 }
 
 export function setInitSurveyAnswers (queryKey, answer){
-  console.log(`setInitSurveyAnswers queryKey:${queryKey}, answer${answer}`)
   return {
     type: types.SET_INIT_SURVEY_ANSWERS,
     queryKey, answer
@@ -93,5 +92,10 @@ export function goDeploy (updateDatetime) {
   return {
     type: types.GO_DEPLOY,
     updateDatetime
+  }
+}
+export function removeSurveyAnswers() {
+  return {
+    type: types.REMOVE_SURVEY_ANSWERS
   }
 }

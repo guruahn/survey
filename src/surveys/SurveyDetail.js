@@ -55,6 +55,7 @@ class SurveyDetail extends Component {
 
   getQueryAnswers(querys){
     let _this = this
+    _this.props.handleRemoveSurveyAnswers();
     querys.forEach(function(query){
       let queryAnswersRef = database.ref('/query-answers/' + query.key);
       queryAnswersRef.once('value').then(function(snapshot, key) {
@@ -63,7 +64,7 @@ class SurveyDetail extends Component {
           //console.log("The " + data.key + " dinosaur's score is " + JSON.stringify(data.val()));
           answers.push(data.val());
         });
-        _this.props.handleAddSurveyQueryAnswer(query.key, answers);
+        _this.props.handleSetInitSurveyAnswers(query.key, answers);
       });
     });
     _this.props.handleSetQuerys(querys);
@@ -307,7 +308,8 @@ const mapDispatchToProps = (dispatch) => {
     handleSetSurveyAnswers: (answers, queryKey) => { dispatch(actions.setSurveyAnswers(answers, queryKey)) },
     handleSetSurveyAnswer: (answer, queryKey, index) => { dispatch(actions.setSurveyAnswer(answer, queryKey, index)) },
     handleSetInitSurveyAnswers: (queryKey, answer) => { dispatch(actions.setInitSurveyAnswers(queryKey, answer)) },
-    handleGoDeploy: (updateDatetime) => { dispatch(actions.goDeploy(updateDatetime)) }
+    handleGoDeploy: (updateDatetime) => { dispatch(actions.goDeploy(updateDatetime)) },
+    handleRemoveSurveyAnswers: () => { dispatch(actions.removeSurveyAnswers()) }
   };
 };
 

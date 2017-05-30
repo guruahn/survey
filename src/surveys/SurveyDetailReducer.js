@@ -83,7 +83,6 @@ console.log(`reducer!!!!! actionType:${action.type}`)
           ]
         }
       case types.SET_INIT_SURVEY_ANSWERS:
-      console.log(`queryKey:${action.queryKey}, answer${action.answer}`)
         return {
           ...state, surveyDetailQuerysAnswers: [
             ...state.surveyDetailQuerysAnswers,
@@ -92,6 +91,10 @@ console.log(`reducer!!!!! actionType:${action.type}`)
               'answer': action.answer
             }
           ]
+        }
+      case types.REMOVE_SURVEY_ANSWERS:
+        return {
+          ...state, surveyDetailQuerysAnswers: []
         }
       case types.SET_SURVEY_ANSWERS:
         return {
