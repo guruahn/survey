@@ -95,7 +95,7 @@ class Participate extends Component {
     updates['/survey-participate/' + this.props.match.params.surveyKey + '/' + surveyParticipteKey ] = {
       "respondent" : this.props.respondent,
       "respondentAnswers" : this.props.respondentAnswers,
-      "updateDatetime" : moment().format(datetimeFormat)
+      "updateDatetime" : moment().valueOf()
     };
     database.ref().update(updates).then(function(){
       console.log('query update complete');
@@ -109,7 +109,7 @@ class Participate extends Component {
   checkIsParticipate(){
     const updates = {};
     let _this = this;
-    database.ref().child('survey-participate/'+this.props.match.params.surveyKey).orderByChild('respondent').equalTo(this.props.respondent).on('value', function(snapshot, key) {
+    database.ref().child('survey-participate/'+this.props.match.params.surveyKey).orderByChild('respondent').equalTo(this.props.respondent).once('value', function(snapshot, key) {
       if(snapshot.val()){
         _this.props.handleSetIsParticipateAlready();
       }else{

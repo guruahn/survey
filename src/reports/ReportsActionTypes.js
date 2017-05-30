@@ -1,2 +1,7 @@
 export const SET_SURVEY = "SET_SURVEY";
 export const SET_LOADING = "SET_LOADING";
+export const SET_QUERYS = "SET_QUERYS";
+export const SET_RESPONDENT_ANSWERS = "SET_RESPONDENT_ANSWERS";
+export const SET_ALL_COUNT = "SET_ALL_COUNT";
+export const SET_TODAY_COUNT = "SET_TODAY_COUNT";
+export const ADD_QUERY_ANSWER = "ADD_QUERY_ANSWER";
