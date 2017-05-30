@@ -103,7 +103,7 @@ class Reports extends Component {
 
     return(
         <div className="u-maxWidth700 u-marginAuto">
-          Reports {this.props.match.params.surveyKey}
+          <h1>Reports : {this.props.surveyDetail.value.title}</h1>
           <div>
             총 참여자 : {this.props.allCount} |
             오늘 참여자 : {this.props.todayCount}

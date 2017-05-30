@@ -14,7 +14,6 @@ const initialState = {
 };
 
 export default function surveyDetail(state = initialState, action){
-console.log(`reducer!!!!! actionType:${action.type}`)
     switch (action.type) {
 
       case types.SET_SURVEY:

@@ -11,7 +11,6 @@ class Query extends Component {
       {label: 'John', value: 20.0},
       {label: 'Tim', value: 6.0 }
     ];
-    console.log(this.props.queryData.value.answers)
     return(
         <div>
           {this.props.queryData.value.question}
