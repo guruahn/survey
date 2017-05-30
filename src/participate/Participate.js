@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { database, firebaseAuth, datetimeFormat } from '../config/constants';
 import Loading from 'react-loading-animation'
 
+//Components
+import Query from './Query.js';
+
 //redux
 import { connect } from 'react-redux';
 import * as actions from './ParticipateActions';
@@ -68,6 +71,21 @@ class Participate extends Component {
   }
 
   render() {
+
+    const printQueryOfSurvey = (querys, answers) => {
+      //console.log('surveyDetail', this.props.surveyDetailQuerys)
+      if(querys && querys.length > 0){
+        return querys.map((query, i) => {
+          return (
+            <Query key={i} index={i}
+              queryData={query}
+              answerData={this.props.surveyDetailQuerysAnswers}
+              />
+          )
+        });
+      }
+    }
+
     if (this.props.loading) {
       return <div className="u-marginTop10em"><Loading type='balls' color='#F0AD4E' /></div>
     }
@@ -104,6 +122,8 @@ class Participate extends Component {
         <div>
         참여중
         </div>
+        <h2>질문</h2>
+        {printQueryOfSurvey(this.props.surveyDetailQuerys)}
       </div>
     );
   }

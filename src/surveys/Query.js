@@ -15,13 +15,15 @@ class Query extends Component {
   render() {
 
     const printQueryType = () => {
-      return answerTypes.map((type, i)=>{
-        return (
-          <option value={type.value} key={i} >
-            {type.label}
-          </option>
-        )
-      })
+      return Object.keys( answerTypes ).forEach( key => {
+          console.log( answerTypes[key] );
+          return (
+            <option value={key} key={key} >
+              {answerTypes[key].label}
+            </option>
+          )
+      });
+
     }
 
     const setAnswer = (queryKey) => {

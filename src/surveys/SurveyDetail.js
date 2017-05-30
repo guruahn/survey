@@ -4,8 +4,10 @@ import Loading from 'react-loading-animation';
 import moment from 'moment';
 import Q from 'q';
 
+//Components
 import Query from './Query.js';
 
+//redux
 import { connect } from 'react-redux';
 import * as actions from './SurveysActions';
 

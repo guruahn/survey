@@ -1,8 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-const propTypes = {
-};
-const defaultProps = {
-};
+
 class Answers extends Component {
     constructor(props) {
         super(props);
@@ -33,6 +30,4 @@ class Answers extends Component {
       );
     }
 }
-Answers.propTypes = propTypes;
-Answers.defaultProps = defaultProps;
 export default Answers;
