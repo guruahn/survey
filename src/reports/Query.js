@@ -34,8 +34,6 @@ class Query extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('nextProps.chartType', nextProps.chartType[this.props.queryData.key]);
-    console.log('this.props.chartType', this.props.chartType[this.props.queryData.key]);
     return JSON.stringify(nextProps) !== JSON.stringify(this.props);
   }
 

@@ -16,6 +16,7 @@ class Survey extends Component {
               {this.props.data.isDeployed &&
                 <span>
                 <Link to={`/reports/${this.props.surveyKey}/${this.props.uid}`} >리포트</Link> |
+                <Link to={`/participants/${this.props.surveyKey}/${this.props.uid}`} >참여자 로그</Link> |
                 <Link to={`/participate/${this.props.surveyKey}/${this.props.uid}`}>배포주소</Link>
                 </span>
               }
