@@ -19,6 +19,7 @@ class Participate extends Component {
     this.getQueryAnswers = this.getQueryAnswers.bind(this);
     this.onChangeAnswer = this.onChangeAnswer.bind(this);
     this.submitSurvey = this.submitSurvey.bind(this);
+    this.reportPaticipate = this.reportPaticipate.bind(this);
   }
 
   getSurvey(){
@@ -100,10 +101,25 @@ class Participate extends Component {
     database.ref().update(updates).then(function(){
       console.log('query update complete');
       _this.props.handleSetIsComplete();
+      _this.reportPaticipate();
     }, function(error) {
         console.log("Error query updating data:", error);
     });
+  }
 
+  reportPaticipate(){
+    const updates = {};
+    let _this = this;
+    let respondentAnswers = this.props.respondentAnswers;
+    Object.keys(respondentAnswers).forEach(function(queryKey){
+      respondentAnswers[queryKey].map((answer) => {
+        let queryReportRef = database.ref('/survey-querys/' + _this.props.match.params.surveyKey + '/' + queryKey + '/report/' +  answer);
+        queryReportRef.transaction(function(count) {
+          return (count || 0) + 1;
+        });
+      });
+
+    })
   }
 
   checkIsParticipate(){
@@ -116,7 +132,6 @@ class Participate extends Component {
         _this.props.handleSetIsParticipate(true);
       }
     });
-
   }
 
   componentDidMount(){

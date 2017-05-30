@@ -207,9 +207,9 @@ class SurveyDetail extends Component {
     let updates = {};
     let _this = this;
     this.props.surveyDetailQuerysAnswers.map((item, index) => {
-      let reportSet = []
+      let reportSet = {}
       this.props.surveyDetailQuerysAnswers[index].answer.map((answer) => {
-        reportSet.push({"label": answer, "value": 0 })
+        reportSet[answer] = 0;
       });
       updates['/survey-querys/' + this.props.match.params.surveyKey + '/' + item.queryKey + '/report'] = reportSet;
       database.ref().update(updates).then(function(){
