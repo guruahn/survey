@@ -12,5 +12,15 @@ export const dummy = {
     "respondent": "안정우",
     "answers":[]
   },
-  'respondent': '안정우'
+  'respondent': '안정우',
+  'loading': true,
+  'isParticipate': false,
+  'respondentAnswers': {
+    '-KidQ671jYnfsuhasdf2-5EA' : {
+      ['yes']
+    },
+    '-KidQ671jYdsnfsuhas2-5EA' : {
+      ['1', '2']
+    }
+  }
 }

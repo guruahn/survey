@@ -45,3 +45,30 @@ export function setQuerys (querys){
     querys
   }
 }
+
+export function addRespondentAnswer (queryKey, answer){
+  return {
+    type: types.ADD_RESPONDENT_ANSWER,
+    queryKey, answer
+  }
+}
+
+export function initRespondentAnswers (respondentAnswers){
+  return {
+    type: types.INIT_RESPONDENT_ANSWERS,
+    respondentAnswers
+  }
+}
+export function removeRespondentAnswer (queryKey, answer){
+  return {
+    type: types.REMOVE_RESPONDENT_ANSWER,
+    queryKey, answer
+  }
+}
+
+export function setRespondentAnswers (queryKey, answers){
+  return {
+    type: types.SET_RESPONDENT_ANSWERS,
+    queryKey, answers
+  }
+}

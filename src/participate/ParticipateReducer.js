@@ -13,7 +13,8 @@ const initialState = {
   surveyDetailQuerysAnswers:[],
   respondent: "",
   loading: true,
-  isParticipate: false
+  isParticipate: false,
+  respondentAnswers: {}
 };
 
 export default function participateReducer(state = initialState, action){
@@ -41,6 +42,32 @@ export default function participateReducer(state = initialState, action){
         return {
           ...state,
           surveyDetailQuerys: action.querys
+        }
+      case types.ADD_RESPONDENT_ANSWER:
+        return {
+          ...state, respondentAnswers: {
+            ...state.respondentAnswers, [action.queryKey] : [
+              ...state.respondentAnswers[action.queryKey] , action.answer
+            ]
+          }
+        }
+      case types.INIT_RESPONDENT_ANSWERS:
+        return {
+          ...state, respondentAnswers: action.respondentAnswers
+        }
+      case types.REMOVE_RESPONDENT_ANSWER:
+        return {
+          ...state, respondentAnswers: {
+            ...state.respondentAnswers, [action.queryKey] : [
+              ...state.respondentAnswers[action.queryKey].filter((answer) => answer !== action.answer)
+            ]
+          }
+        }
+      case types.SET_RESPONDENT_ANSWERS:
+        return {
+          ...state, respondentAnswers: {
+            ...state.respondentAnswers, [action.queryKey] : action.answers
+          }
         }
       default:
         return state;

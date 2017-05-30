@@ -6,7 +6,10 @@ import Answers from './Answers';
 class Query extends Component {
   constructor(props) {
     super(props);
+
   }
+
+
   render() {
     const setAnswer = (queryKey) => {
       //console.log('queryKey', queryKey)
@@ -20,7 +23,9 @@ class Query extends Component {
                 answerData={answers}
                 queryKey={queryKey}
                 answerIndex={i}
-                answerType={answerTypes[this.props.queryData.value.answerType].inputType}
+                inputType={answerTypes[this.props.queryData.value.answerType].inputType}
+                answerType={this.props.queryData.value.answerType}
+                onChangeAnswer={this.props.onChangeAnswer}
                 />
             )
           }

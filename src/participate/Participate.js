@@ -16,6 +16,7 @@ class Participate extends Component {
     this.getSurvey = this.getSurvey.bind(this);
     this.getQuerys = this.getQuerys.bind(this);
     this.getQueryAnswers = this.getQueryAnswers.bind(this);
+    this.onChangeAnswer = this.onChangeAnswer.bind(this);
   }
 
   getSurvey(){
@@ -36,13 +37,16 @@ class Participate extends Component {
     surveyQuerysRef.once('value').then(function(snapshot, key) {
       //console.log(snapshot.val())
       let querys = []
+      let respondentAnswers = {}
       snapshot.forEach(function(data){
         //console.log("The " + data.key + " dinosaur's score is " + JSON.stringify(data.val()));
         querys.push({key:data.key, value:data.val()})
+        respondentAnswers[data.key] = []
       });
-      //console.log(myBooks)
       _this.getQueryAnswers(querys);
+      _this.props.handleInitRespondentAnswers(respondentAnswers)
     });
+    //TODO respondentAnswers 세트 만들어 놓기.
   }
 
   getQueryAnswers(querys){
@@ -65,6 +69,25 @@ class Participate extends Component {
     _this.props.handleSetQuerys(querys);
   }
 
+  onChangeAnswer(e, queryKey, answerType){
+    console.log('slected value', e.target.value)
+    console.log('checked', e.target.checked)
+    console.log('answerType', answerType)
+    const answer = e.target.value
+    if(answerType == 'multiple'){
+      if(e.target.checked){
+        this.props.handleAddRespondentAnswer(queryKey, answer)
+      }else{
+        this.props.handleRemoveRespondentAnswer(queryKey, answer)
+      }
+    }else{
+      const answers = []
+      answers.push(answer)
+      this.props.handleSetRespondentAnswers(queryKey, answers)
+    }
+
+  }
+
   componentDidMount(){
     this.getSurvey()
     this.getQuerys()
@@ -80,6 +103,7 @@ class Participate extends Component {
             <Query key={i} index={i}
               queryData={query}
               answerData={this.props.surveyDetailQuerysAnswers}
+              onChangeAnswer={this.onChangeAnswer}
               />
           )
         });
@@ -102,6 +126,7 @@ class Participate extends Component {
         <div className="u-maxWidth700 u-marginAuto">
           <h1>{this.props.surveyDetail.value.title}</h1>
           <div>
+            <label>이름 : </label>
             <input
               type="text" name="respondent" data-name="respondent"
               value={this.props.respondent}
@@ -109,6 +134,7 @@ class Participate extends Component {
               />
             <button
               onClick={() => this.props.handleSetIsParticipate(true)}
+              disabled={ (this.props.respondent.length > 0 ) ? "" : "disabled" }
               >
               참여하기
             </button>
@@ -148,6 +174,10 @@ const mapDispatchToProps = (dispatch) => {
     handleSetIsParticipate: (state) => { dispatch(actions.setIsParticipate(state)) },
     handleAddQueryAnswer: (queryKey, answer) => { dispatch(actions.addQueryAnswer(queryKey, answer)) },
     handleSetQuerys: (querys) => { dispatch(actions.setQuerys(querys)) },
+    handleAddRespondentAnswer: (queryKey, answer) => { dispatch(actions.addRespondentAnswer(queryKey, answer)) },
+    handleRemoveRespondentAnswer: (queryKey, answer) => { dispatch(actions.removeRespondentAnswer(queryKey, answer)) },
+    handleInitRespondentAnswers: (respondentAnswers) => { dispatch(actions.initRespondentAnswers(respondentAnswers)) },
+    handleSetRespondentAnswers: (queryKey, answers) => { dispatch(actions.setRespondentAnswers(queryKey, answers)) }
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Participate);

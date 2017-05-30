@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { answerTypes } from '../config/constants';
 
 class Answers extends Component {
   constructor(props) {
@@ -15,10 +16,11 @@ class Answers extends Component {
               <label>{answer}</label>
               <input
                 value={answer}
-                type={this.props.answerType}
+                name={this.props.queryKey}
+                type={this.props.inputType}
                 data-query-index={this.props.index}
                 data-answer-index={i}
-                onChange={(e) => this.props.onChangeAnswerTitle(e, this.props.queryKey, i)}
+                onChange={(e) => this.props.onChangeAnswer(e, this.props.queryKey, this.props.answerType)}
                 />
             </div>
           )
