@@ -22,14 +22,11 @@ class Participate extends Component {
   }
 
   getSurvey(){
-    let _this = this
+    let _this = this;
     let surveyRef = database.ref('/user-surveys/' + this.props.match.params.uid + '/' + this.props.match.params.surveyKey);
-    //console.log('start getServey!!!!')
     surveyRef.once('value').then(function(snapshot, key) {
-      console.log('key', snapshot.key)
-      console.log('val', snapshot.val())
-      _this.props.handleSetSurvey(snapshot.key, snapshot.val())
-      _this.props.handleSetLoading(false)
+      _this.props.handleSetSurvey(snapshot.key, snapshot.val());
+      _this.props.handleSetLoading(false);
     });
   }
 
@@ -37,55 +34,46 @@ class Participate extends Component {
     let _this = this
     let surveyQuerysRef = database.ref('/survey-querys/' + this.props.match.params.surveyKey);
     surveyQuerysRef.once('value').then(function(snapshot, key) {
-      //console.log(snapshot.val())
-      let querys = []
-      let respondentAnswers = {}
+      let querys = [];
+      let respondentAnswers = {};
       snapshot.forEach(function(data){
         //console.log("The " + data.key + " dinosaur's score is " + JSON.stringify(data.val()));
-        querys.push({key:data.key, value:data.val()})
-        respondentAnswers[data.key] = []
+        querys.push({key:data.key, value:data.val()});
+        respondentAnswers[data.key] = [];
       });
       _this.getQueryAnswers(querys);
-      _this.props.handleInitRespondentAnswers(respondentAnswers)
+      _this.props.handleInitRespondentAnswers(respondentAnswers);
     });
-    //TODO respondentAnswers 세트 만들어 놓기.
   }
 
   getQueryAnswers(querys){
-    let _this = this
+    let _this = this;
     querys.forEach(function(query){
-      //console.log('queryKey', query.key);
-      //querys.push({key:data.key, value:data.val()})
       let queryAnswersRef = database.ref('/query-answers/' + query.key);
       queryAnswersRef.once('value').then(function(snapshot, key) {
-        //console.log(snapshot.val())
-        let answers = []
+        let answers = [];
         snapshot.forEach(function(data){
           //console.log("The " + data.key + " dinosaur's score is " + JSON.stringify(data.val()));
-          answers.push(data.val())
+          answers.push(data.val());
         });
         _this.props.handleAddQueryAnswer(query.key, answers);
-        //console.log(myBooks)
       });
     });
     _this.props.handleSetQuerys(querys);
   }
 
   onChangeAnswer(e, queryKey, answerType){
-    console.log('slected value', e.target.value)
-    console.log('checked', e.target.checked)
-    console.log('answerType', answerType)
-    const answer = e.target.value
+    const answer = e.target.value;
     if(answerType == 'multiple'){
       if(e.target.checked){
-        this.props.handleAddRespondentAnswer(queryKey, answer)
+        this.props.handleAddRespondentAnswer(queryKey, answer);
       }else{
-        this.props.handleRemoveRespondentAnswer(queryKey, answer)
+        this.props.handleRemoveRespondentAnswer(queryKey, answer);
       }
     }else{
-      const answers = []
-      answers.push(answer)
-      this.props.handleSetRespondentAnswers(queryKey, answers)
+      const answers = [];
+      answers.push(answer);
+      this.props.handleSetRespondentAnswers(queryKey, answers);
     }
 
   }
@@ -108,10 +96,10 @@ class Participate extends Component {
       "respondent" : this.props.respondent,
       "respondentAnswers" : this.props.respondentAnswers,
       "updateDatetime" : moment().format(datetimeFormat)
-    }
+    };
     database.ref().update(updates).then(function(){
-      console.log('query update complete')
-      _this.props.handleSetIsComplete()
+      console.log('query update complete');
+      _this.props.handleSetIsComplete();
     }, function(error) {
         console.log("Error query updating data:", error);
     });
@@ -121,20 +109,19 @@ class Participate extends Component {
   checkIsParticipate(){
     const updates = {};
     let _this = this;
-    let bookKey;
     database.ref().child('survey-participate/'+this.props.match.params.surveyKey).orderByChild('respondent').equalTo(this.props.respondent).on('value', function(snapshot, key) {
       if(snapshot.val()){
-        _this.props.handleSetIsParticipateAlready()
+        _this.props.handleSetIsParticipateAlready();
       }else{
-        _this.props.handleSetIsParticipate(true)
+        _this.props.handleSetIsParticipate(true);
       }
     });
 
   }
 
   componentDidMount(){
-    this.getSurvey()
-    this.getQuerys()
+    this.getSurvey();
+    this.getQuerys();
   }
 
   render() {

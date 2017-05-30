@@ -35,9 +35,7 @@ class SurveyDetail extends Component {
   getSurvey(){
     let _this = this
     let surveyRef = database.ref('/user-surveys/' + this.props.user.uid + '/' + this.props.match.params.surveyKey);
-    //console.log('start getSurvey!!!!')
     surveyRef.once('value').then(function(snapshot, key) {
-      //console.log('key', snapshot.key)
       _this.props.handleSetSurvey(snapshot.key, snapshot.val())
     });
   }
@@ -46,13 +44,10 @@ class SurveyDetail extends Component {
     let _this = this
     let surveyQuerysRef = database.ref('/survey-querys/' + this.props.match.params.surveyKey);
     surveyQuerysRef.once('value').then(function(snapshot, key) {
-      //console.log(snapshot.val())
       let querys = []
       snapshot.forEach(function(data){
-        //console.log("The " + data.key + " dinosaur's score is " + JSON.stringify(data.val()));
-        querys.push({key:data.key, value:data.val()})
+        querys.push({key:data.key, value:data.val()});
       });
-      //console.log(myBooks)
       _this.getQueryAnswers(querys);
     });
   }
@@ -60,18 +55,14 @@ class SurveyDetail extends Component {
   getQueryAnswers(querys){
     let _this = this
     querys.forEach(function(query){
-      //console.log('queryKey', query.key);
-      //querys.push({key:data.key, value:data.val()})
       let queryAnswersRef = database.ref('/query-answers/' + query.key);
       queryAnswersRef.once('value').then(function(snapshot, key) {
-        //console.log(snapshot.val())
-        let answers = []
+        let answers = [];
         snapshot.forEach(function(data){
           //console.log("The " + data.key + " dinosaur's score is " + JSON.stringify(data.val()));
-          answers.push(data.val())
+          answers.push(data.val());
         });
         _this.props.handleAddSurveyQueryAnswer(query.key, answers);
-        //console.log(myBooks)
       });
     });
     _this.props.handleSetQuerys(querys);
@@ -88,11 +79,11 @@ class SurveyDetail extends Component {
       "answerType": "yesOrNo",
       "order": 0
     };
-    updates['/survey-querys/' + this.props.match.params.surveyKey + '/' + queryKey] = query
+    updates['/survey-querys/' + this.props.match.params.surveyKey + '/' + queryKey] = query;
     database.ref().update(updates).then(function(){
       //console.log('query update complete')
-      _this.props.handleAddSurveyQuery(queryKey, query)
-      _this.resetNewAnswer(queryKey)
+      _this.props.handleAddSurveyQuery(queryKey, query);
+      _this.resetNewAnswer(queryKey);
     }, function(error) {
         console.log("Error query updating data:", error);
     });
@@ -101,11 +92,11 @@ class SurveyDetail extends Component {
   resetNewAnswer(queryKey){
     const updates = {};
     let _this = this;
-    let answer = ['yes', 'no']
-    updates['/query-answers/' + queryKey] = answer
+    let answer = ['yes', 'no'];
+    updates['/query-answers/' + queryKey] = answer;
     database.ref().update(updates).then(function(){
       //console.log('answer update complete')
-      _this.props.handleSetSurveyAnswers(answer, queryKey)
+      _this.props.handleSetSurveyAnswers(answer, queryKey);
     }, function(error) {
         console.log("Error answer updating data:", error);
     });
@@ -114,13 +105,12 @@ class SurveyDetail extends Component {
   addAnswer(queryKey, index){
     const updates = {};
     let _this = this;
-    let answers = this.findAnswersByQuery(queryKey)
-    answers.push('새 선택항목')
-    console.log('answers', answers)
-    updates['/query-answers/' + queryKey] = answers
+    let answers = this.findAnswersByQuery(queryKey);
+    answers.push('새 선택항목');
+    updates['/query-answers/' + queryKey] = answers;
     database.ref().update(updates).then(function(){
       //console.log('answer update complete')
-      _this.props.handleSetSurveyAnswers(answers, queryKey)
+      _this.props.handleSetSurveyAnswers(answers, queryKey);
     }, function(error) {
         console.log("Error answer updating data:", error);
     });
@@ -134,7 +124,7 @@ class SurveyDetail extends Component {
     let _this = this;
     updates['/user-surveys/' + this.props.user.uid + '/' + this.props.surveyDetail.key] = this.props.surveyDetail.value
     database.ref().update(updates).then(function(){
-      console.log('update complete')
+      console.log('update complete');
     }, function(error) {
         console.log("Error updating data:", error);
     });
@@ -146,18 +136,18 @@ class SurveyDetail extends Component {
   saveSurveyQueryTitle(index){
     const updates = {};
     let _this = this;
-    updates['/survey-querys/' + this.props.surveyDetail.key + '/' + this.props.surveyDetailQuerys[index].key] = this.props.surveyDetailQuerys[index].value
+    updates['/survey-querys/' + this.props.surveyDetail.key + '/' + this.props.surveyDetailQuerys[index].key] = this.props.surveyDetailQuerys[index].value;
     database.ref().update(updates).then(function(){
-      console.log('update complete')
+      console.log('update complete');
     }, function(error) {
         console.log("Error updating data:", error);
     });
   }
 
   findAnswersByQuery(queryKey){
-    let answers = []
+    let answers = [];
     this.props.surveyDetailQuerysAnswers.map((item) => {
-      if(item.queryKey === queryKey) answers = item.answer
+      if(item.queryKey === queryKey) answers = item.answer;
     })
     return answers;
   }
@@ -165,9 +155,9 @@ class SurveyDetail extends Component {
   onChangeQueryAnswerType(e, queryKey, index){
     //e.target.value 가 yesOrrNo이면 선택항목 yes, no로 리셋.
     if(e.target.value == "yesOrNo"){
-      this.resetNewAnswer(queryKey)
+      this.resetNewAnswer(queryKey);
     }
-    this.props.handleSetSurveyQueryAnswerType(e.target.value, queryKey)
+    this.props.handleSetSurveyQueryAnswerType(e.target.value, queryKey);
     this.saveAnswerType(e.target.value, queryKey, index)
   }
   saveAnswerType(answerType, queryKey, index){
@@ -177,23 +167,22 @@ class SurveyDetail extends Component {
       'answerType': answerType,
       'order': this.props.surveyDetailQuerys[index].value.order,
       'question': this.props.surveyDetailQuerys[index].value.question
-    }
+    };
     database.ref().update(updates).then(function(){
-      console.log('update complete')
+      console.log('update complete');
     }, function(error) {
         console.log("Error updating data:", error);
     });
   }
   setAnswer(e, queryKey, index){
-    this.props.handleSetSurveyAnswer(e.target.value, queryKey, index)
+    this.props.handleSetSurveyAnswer(e.target.value, queryKey, index);
   }
   saveAnswer(queryKey, answerIndex){
     const updates = {};
     let _this = this;
-    //console.log('answerIndex', answerIndex)
-    updates['/query-answers/' + queryKey] = this.props.surveyDetailQuerysAnswers[answerIndex].answer
+    updates['/query-answers/' + queryKey] = this.props.surveyDetailQuerysAnswers[answerIndex].answer;
     database.ref().update(updates).then(function(){
-      console.log('update complete')
+      console.log('update complete');
     }, function(error) {
         console.log("Error updating data:", error);
     });
@@ -202,10 +191,9 @@ class SurveyDetail extends Component {
   goDeploy(){
     const updates = {};
     let _this = this;
-    //console.log('answerIndex', answerIndex)
     updates['/user-surveys/' + this.props.user.uid + '/' + this.props.match.params.surveyKey + '/isDeployed'] = true;
     database.ref().update(updates).then(function(){
-      console.log('update complete')
+      console.log('update complete');
       _this.props.handleGoDeploy(moment().format(datetimeFormat))
     }, function(error) {
         console.log("Error updating data:", error);
@@ -220,7 +208,6 @@ class SurveyDetail extends Component {
   render() {
 
     const printQueryOfSurvey = (querys, answers) => {
-      //console.log('surveyDetail', this.props.surveyDetailQuerys)
       if(querys && querys.length > 0){
         return querys.map((query, i) => {
           return (

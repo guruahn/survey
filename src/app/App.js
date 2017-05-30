@@ -1,19 +1,19 @@
 //Dependencies
 import React, { Component } from 'react';
 import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom';
-import { logout } from '../helpers/auth'
-import { firebaseAuth } from '../config/constants'
+import { logout } from '../helpers/auth';
+import { firebaseAuth } from '../config/constants';
 
 //Components
 import Login from '../user/Login';
 import Register from '../user/Register';
-import Header from './Header'
+import Header from './Header';
 import Home from './Home';
-import MySurveys from '../surveys/MySurveys'
-import SurveyDetail from '../surveys/SurveyDetail'
-import Loading from 'react-loading-animation'
-import Participate from '../participate/Participate'
-import Reports from '../reports/Reports'
+import MySurveys from '../surveys/MySurveys';
+import SurveyDetail from '../surveys/SurveyDetail';
+import Loading from 'react-loading-animation';
+import Participate from '../participate/Participate';
+import Reports from '../reports/Reports';
 
 //Etcs...
 import './style/Base.css';
