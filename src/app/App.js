@@ -60,13 +60,13 @@ class App extends Component {
         //console.log('authed:', user)
         //console.log('emailVerified:', user.emailVerified)
         let authed = true;
-        if(process.env.NODE_ENV === "production"){
-          if(!user.emailVerified){
-            authed = false;
-          }
-        }else{
-
-        }
+        // if(process.env.NODE_ENV === "production"){
+        //   if(!user.emailVerified){
+        //     authed = false;
+        //   }
+        // }else{
+        //
+        // }
         this.setState({
           authed: authed,
           loading: false,
