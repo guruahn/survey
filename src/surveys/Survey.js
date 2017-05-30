@@ -13,7 +13,12 @@ class Survey extends Component {
               8개 |
               <Link to={`/mySurveys/${this.props.surveyKey}`} >수정하기</Link> |
               <Link to={`/reports/${this.props.surveyKey}`} >리포트</Link> |
-              <Link to={`/participate/${this.props.surveyKey}/${this.props.uid}`}>배포주소</Link>
+              {this.props.data.isDeployed &&
+                <Link to={`/participate/${this.props.surveyKey}/${this.props.uid}`}>배포주소</Link>
+              }
+              {!this.props.data.isDeployed &&
+                "배포안됨"
+              }
 
             </div>
         );
