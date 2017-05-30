@@ -14,7 +14,9 @@ const initialState = {
   respondent: "",
   loading: true,
   isParticipate: false,
-  respondentAnswers: {}
+  respondentAnswers: {},
+  isComplete: false,
+  isParticipateAlready: false
 };
 
 export default function participateReducer(state = initialState, action){
@@ -27,7 +29,10 @@ export default function participateReducer(state = initialState, action){
         return { ...state, respondent: action.respondent }
       case types.SET_IS_PARTICIPATE:
         return { ...state, isParticipate: action.state}
-
+      case types.SET_IS_COMPLETE:
+        return { ...state, isComplete: true}
+      case types.SET_IS_PARTICIPATE_ALREADY:
+        return { ...state, isParticipateAlready: true}
       case types.ADD_QUERY_ANSWER:
         return {
           ...state, surveyDetailQuerysAnswers: [

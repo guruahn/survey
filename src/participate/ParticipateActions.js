@@ -32,6 +32,11 @@ export function setIsParticipate(state) {
   }
 }
 
+export function setIsParticipateAlready (){
+  return {
+    type: types.SET_IS_PARTICIPATE_ALREADY
+  }
+}
 export function addQueryAnswer (queryKey, answer){
   return {
     type: types.ADD_QUERY_ANSWER,
@@ -70,5 +75,11 @@ export function setRespondentAnswers (queryKey, answers){
   return {
     type: types.SET_RESPONDENT_ANSWERS,
     queryKey, answers
+  }
+}
+
+export function setIsComplete (){
+  return {
+    type: types.SET_IS_COMPLETE
   }
 }

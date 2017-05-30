@@ -17,6 +17,7 @@ class Participate extends Component {
     this.getQuerys = this.getQuerys.bind(this);
     this.getQueryAnswers = this.getQueryAnswers.bind(this);
     this.onChangeAnswer = this.onChangeAnswer.bind(this);
+    this.submitSurvey = this.submitSurvey.bind(this);
   }
 
   getSurvey(){
@@ -88,6 +89,47 @@ class Participate extends Component {
 
   }
 
+  submitSurvey(){
+    const updates = {};
+    let _this = this;
+
+    //check validation
+    let respondentAnswers = this.props.respondentAnswers;
+    Object.keys(respondentAnswers).forEach(function(key){
+      if(respondentAnswers[key].length == 0) {
+        alert("선택하지 않은 문항이 있습니다.");
+        return false;
+      }
+    })
+
+    const surveyParticipteKey = database.ref().child('survey-querys').push().key;
+    updates['/survey-participate/' + this.props.match.params.surveyKey + '/' + surveyParticipteKey ] = {
+      "respondent" : this.props.respondent,
+      "respondentAnswers" : this.props.respondentAnswers
+    }
+    database.ref().update(updates).then(function(){
+      console.log('query update complete')
+      _this.props.handleSetIsComplete()
+    }, function(error) {
+        console.log("Error query updating data:", error);
+    });
+
+  }
+
+  checkIsParticipate(){
+    const updates = {};
+    let _this = this;
+    let bookKey;
+    database.ref().child('survey-participate/'+this.props.match.params.surveyKey).orderByChild('respondent').equalTo(this.props.respondent).on('value', function(snapshot, key) {
+      if(snapshot.val()){
+        _this.props.handleSetIsParticipateAlready()
+      }else{
+        _this.props.handleSetIsParticipate(true)
+      }
+    });
+
+  }
+
   componentDidMount(){
     this.getSurvey()
     this.getQuerys()
@@ -133,12 +175,24 @@ class Participate extends Component {
               onChange={(e) => this.props.handleSetRespondent(e.target.value)}
               />
             <button
-              onClick={() => this.props.handleSetIsParticipate(true)}
+              onClick={() => this.checkIsParticipate()}
               disabled={ (this.props.respondent.length > 0 ) ? "" : "disabled" }
               >
               참여하기
             </button>
+            {this.props.isParticipateAlready &&
+              <h2>
+                이미 참여하셨습니다.
+              </h2>
+            }
           </div>
+        </div>
+      )
+    }
+    if (this.props.isComplete === true) {
+      return (
+        <div className="u-maxWidth700 u-marginAuto">
+          <p>{this.props.respondent}님 설문조사를 완료하였습니다. 참여해 주셔서 감사합니다.</p>
         </div>
       )
     }
@@ -150,6 +204,9 @@ class Participate extends Component {
         </div>
         <h2>질문</h2>
         {printQueryOfSurvey(this.props.surveyDetailQuerys)}
+        <div>
+          <button onClick={this.submitSurvey}>완료</button>
+        </div>
       </div>
     );
   }
@@ -163,6 +220,9 @@ const mapStateToProps = (state) => {
     respondent: state.participateReducer.respondent,
     loading: state.participateReducer.loading,
     isParticipate: state.participateReducer.isParticipate,
+    respondentAnswers: state.participateReducer.respondentAnswers,
+    isComplete: state.participateReducer.isComplete,
+    isParticipateAlready: state.participateReducer.isParticipateAlready
   };
 }
 
@@ -170,6 +230,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleSetSurvey: (key, survey) => { dispatch(actions.setSurvey(key, survey)) },
     handleSetLoading: (state) => { dispatch(actions.setLoading(state)) },
+    handleSetIsComplete: () => { dispatch(actions.setIsComplete()) },
+    handleSetIsParticipateAlready: () => { dispatch(actions.setIsParticipateAlready()) },
     handleSetRespondent: (respondent) => { dispatch(actions.setRespondent(respondent)) },
     handleSetIsParticipate: (state) => { dispatch(actions.setIsParticipate(state)) },
     handleAddQueryAnswer: (queryKey, answer) => { dispatch(actions.addQueryAnswer(queryKey, answer)) },
