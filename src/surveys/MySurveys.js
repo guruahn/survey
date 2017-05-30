@@ -29,6 +29,7 @@ class MySurveys extends Component {
         surveys.push({key:data.key, value:data.val()})
       });
       _this.props.handleSetMySurveys(surveys)
+      _this.props.handleSetLoading(false);
     });
   }
 
@@ -56,7 +57,7 @@ class MySurveys extends Component {
   render() {
     const mapToComponent = (surveys) => {
       if(typeof surveys === 'undefined' || surveys.length === 0){
-        return <Loading />
+        return <div>아직 설문이 없습니다. </div>
       }else{
 
         return surveys.map((survey, i) => {
@@ -73,6 +74,9 @@ class MySurveys extends Component {
         });
       }
     };
+    if (this.props.loading) {
+      return <div className="u-marginTop10em"><Loading type='balls' color='#F0AD4E' /></div>
+    }
     return(
       <div className="u-maxWidth700 u-marginAuto">
         <h1>설문지 목록</h1>
@@ -91,13 +95,15 @@ class MySurveys extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    surveys: state.mySurveys.surveys
+    surveys: state.mySurveys.surveys,
+    loading: state.mySurveys.loading,
   };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     handleSetMySurveys: (surveys) => { dispatch(actions.setMySurveys(surveys)) },
+    handleSetLoading: (state) => { dispatch(actions.setLoading(state)) },
   };
 };
 

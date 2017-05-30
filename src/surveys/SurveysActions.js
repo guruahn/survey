@@ -18,6 +18,13 @@ export function setSurvey (key, survey){
   }
 }
 
+export function setLoading (state){
+  return {
+    type: types.SET_LOADING,
+    state
+  }
+}
+
 export function setQuerys (querys){
   return {
     type: types.SET_QUERYS,
