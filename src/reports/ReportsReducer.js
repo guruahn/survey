@@ -15,7 +15,8 @@ const initialState = {
   loading: true,
   respondentAnswers: {},
   allCount: 0,
-  todayCount: 0
+  todayCount: 0,
+  chartType: "pieChart"
 };
 
 export default function reportsReducer(state = initialState, action){
@@ -43,6 +44,8 @@ export default function reportsReducer(state = initialState, action){
           ...state,
           surveyDetailQuerys: action.querys
         }
+      case types.SET_CHART_TYPE:
+        return { ...state, chartType: action.chartType }
       default:
         return state;
     }

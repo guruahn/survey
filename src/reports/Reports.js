@@ -95,6 +95,8 @@ class Reports extends Component {
             <Query key={i} index={i}
               queryData={query}
               answerData={this.props.surveyDetailQuerysAnswers}
+              setChartType={this.props.handleSetChartType}
+              chartType={this.props.chartType}
               />
           )
         });
@@ -123,7 +125,8 @@ const mapStateToProps = (state) => {
     loading: state.reportsReducer.loading,
     respondentAnswers: state.reportsReducer.respondentAnswers,
     allCount: state.reportsReducer.allCount,
-    todayCount: state.reportsReducer.todayCount
+    todayCount: state.reportsReducer.todayCount,
+    chartType: state.reportsReducer.chartType,
   };
 }
 
@@ -136,6 +139,7 @@ const mapDispatchToProps = (dispatch) => {
     handleSetQuerys: (querys) => { dispatch(actions.setQuerys(querys)) },
     handleSetRespondentAnswers: (queryKey, answers) => { dispatch(actions.setRespondentAnswers(queryKey, answers)) },
     handleAddQueryAnswer: (queryKey, answer) => { dispatch(actions.addQueryAnswer(queryKey, answer)) },
+    handleSetChartType: (chartType) => { dispatch(actions.setChartType(chartType)) },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Reports);
