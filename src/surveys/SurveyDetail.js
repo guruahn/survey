@@ -198,6 +198,26 @@ class SurveyDetail extends Component {
     }, function(error) {
         console.log("Error updating data:", error);
     });
+    this.setQueryReport();
+  }
+
+  setQueryReport(){
+    let updates = {};
+    let _this = this;
+    this.props.surveyDetailQuerysAnswers.map((item, index) => {
+      let reportSet = []
+      this.props.surveyDetailQuerysAnswers[index].answer.map((answer) => {
+        reportSet.push({"label": answer, "value": 0 })
+      });
+      updates['/survey-querys/' + this.props.match.params.surveyKey + '/' + item.queryKey + '/report'] = reportSet;
+      database.ref().update(updates).then(function(){
+        console.log('update complete');
+        _this.props.handleGoDeploy(moment().format(datetimeFormat))
+      }, function(error) {
+          console.log("Error updating data:", error);
+      });
+    })
+
   }
 
   componentDidMount(){

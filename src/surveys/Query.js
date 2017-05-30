@@ -15,10 +15,11 @@ class Query extends Component {
   render() {
 
     const printQueryType = () => {
-      return Object.keys( answerTypes ).forEach( key => {
-          console.log( answerTypes[key] );
+      console.log('answerType', this.props.queryData.value.answerType)
+      return Object.keys( answerTypes ).forEach( (key, index) => {
+          console.log('key',answerTypes[key].label );
           return (
-            <option value={key} key={key} >
+            <option value={key} key={index}>
               {answerTypes[key].label}
             </option>
           )
@@ -68,7 +69,11 @@ class Query extends Component {
               value={this.props.queryData.value.answerType}
               onChange={(e) => this.props.onChangeQueryAnswerType(e, this.props.queryData.key, this.props.index )}
               disabled={this.props.isDeployed ? "disabled" : false}
-              >{printQueryType()}</select>
+              >
+              <option value="yesOrNo">yes / no</option>
+              <option value="onlyOne">한 개 선택</option>
+              <option value="multiple">여러 개 선택</option>
+            </select>
 
           </div>
           <div>
