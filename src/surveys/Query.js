@@ -14,25 +14,12 @@ class Query extends Component {
 
   render() {
 
-    const printQueryType = () => {
-      console.log('answerType', this.props.queryData.value.answerType)
-      return Object.keys( answerTypes ).forEach( (key, index) => {
-          console.log('key',answerTypes[key].label );
-          return (
-            <option value={key} key={index}>
-              {answerTypes[key].label}
-            </option>
-          )
-      });
-
-    }
-
     const setAnswer = (queryKey) => {
       //console.log('queryKey', queryKey)
       if(this.props.answerData && this.props.answerData.length > 0){
         return this.props.answerData.map((answers, i) => {
           if(answers.queryKey == queryKey) {
-            console.log('answers', answers)
+            //console.log('answers', answers)
             return (
               <Answers
                 key={`answer-${queryKey}-${i}`}

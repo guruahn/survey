@@ -69,8 +69,16 @@ export function setSurveyQueryAnswerType (answerType, queryKey){
 
 export function setSurveyAnswers (answers, queryKey){
   return {
-    type: types. SET_SURVEY_ANSWERS,
+    type: types.SET_SURVEY_ANSWERS,
     answers, queryKey
+  }
+}
+
+export function setInitSurveyAnswers (queryKey, answer){
+  console.log(`setInitSurveyAnswers queryKey:${queryKey}, answer${answer}`)
+  return {
+    type: types.SET_INIT_SURVEY_ANSWERS,
+    queryKey, answer
   }
 }
 

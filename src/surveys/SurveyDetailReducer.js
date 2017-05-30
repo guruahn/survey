@@ -14,7 +14,9 @@ const initialState = {
 };
 
 export default function surveyDetail(state = initialState, action){
+console.log(`reducer!!!!! actionType:${action.type}`)
     switch (action.type) {
+
       case types.SET_SURVEY:
         return { ...state, surveyDetail: {key: action.key, value: action.survey }}
       case types.SET_SURVEY_TITLE:
@@ -78,6 +80,17 @@ export default function surveyDetail(state = initialState, action){
                   )
                 ]
               } : answerObj)
+          ]
+        }
+      case types.SET_INIT_SURVEY_ANSWERS:
+      console.log(`queryKey:${action.queryKey}, answer${action.answer}`)
+        return {
+          ...state, surveyDetailQuerysAnswers: [
+            ...state.surveyDetailQuerysAnswers,
+            {
+              'queryKey': action.queryKey,
+              'answer': action.answer
+            }
           ]
         }
       case types.SET_SURVEY_ANSWERS:

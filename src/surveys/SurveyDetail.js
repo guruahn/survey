@@ -30,6 +30,7 @@ class SurveyDetail extends Component {
     this.goDeploy = this.goDeploy.bind(this);
     // TODO update surveys updateDatetime, when updating anithing
     // TODO 수동 저장 버튼기능
+    // TODO 질문/선택항목 삭제 기능
   }
 
   getSurvey(){
@@ -95,8 +96,8 @@ class SurveyDetail extends Component {
     let answer = ['yes', 'no'];
     updates['/query-answers/' + queryKey] = answer;
     database.ref().update(updates).then(function(){
-      //console.log('answer update complete')
-      _this.props.handleSetSurveyAnswers(answer, queryKey);
+      console.log('answer update complete');
+      _this.props.handleSetInitSurveyAnswers(queryKey, answer);
     }, function(error) {
         console.log("Error answer updating data:", error);
     });
@@ -305,6 +306,7 @@ const mapDispatchToProps = (dispatch) => {
     handleSetSurveyQueryAnswerType: (answerType, queryKey) => { dispatch(actions.setSurveyQueryAnswerType(answerType, queryKey)) },
     handleSetSurveyAnswers: (answers, queryKey) => { dispatch(actions.setSurveyAnswers(answers, queryKey)) },
     handleSetSurveyAnswer: (answer, queryKey, index) => { dispatch(actions.setSurveyAnswer(answer, queryKey, index)) },
+    handleSetInitSurveyAnswers: (queryKey, answer) => { dispatch(actions.setInitSurveyAnswers(queryKey, answer)) },
     handleGoDeploy: (updateDatetime) => { dispatch(actions.goDeploy(updateDatetime)) }
   };
 };
