@@ -214,7 +214,7 @@ class SurveyDetail extends Component {
       updates['/survey-querys/' + this.props.match.params.surveyKey + '/' + item.queryKey + '/report'] = reportSet;
       database.ref().update(updates).then(function(){
         console.log('update complete');
-        _this.props.handleGoDeploy(moment().format(datetimeFormat))
+        _this.props.history.push('/mySurveys');
       }, function(error) {
           console.log("Error updating data:", error);
       });
