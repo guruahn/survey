@@ -44,6 +44,7 @@ class Reports extends Component {
 
   getQueryAnswers(querys){
     let _this = this;
+    let chartTypes = {};
     querys.forEach(function(query){
       let queryAnswersRef = database.ref('/query-answers/' + query.key);
       queryAnswersRef.once('value').then(function(snapshot, key) {
@@ -54,7 +55,9 @@ class Reports extends Component {
         });
         _this.props.handleAddQueryAnswer(query.key, answers);
       });
+      chartTypes[query.key] = "pieChart";
     });
+    _this.props.handleInitChartType(chartTypes);
     _this.props.handleSetQuerys(querys);
   }
 
@@ -139,7 +142,8 @@ const mapDispatchToProps = (dispatch) => {
     handleSetQuerys: (querys) => { dispatch(actions.setQuerys(querys)) },
     handleSetRespondentAnswers: (queryKey, answers) => { dispatch(actions.setRespondentAnswers(queryKey, answers)) },
     handleAddQueryAnswer: (queryKey, answer) => { dispatch(actions.addQueryAnswer(queryKey, answer)) },
-    handleSetChartType: (chartType) => { dispatch(actions.setChartType(chartType)) },
+    handleSetChartType: (queryKey, chartType) => { dispatch(actions.setChartType(queryKey, chartType)) },
+    handleInitChartType: (chartTypes) => { dispatch(actions.initChartType(chartTypes)) },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Reports);

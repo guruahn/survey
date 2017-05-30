@@ -53,9 +53,16 @@ export function addQueryAnswer (queryKey, answer){
   }
 }
 
-export function setChartType (chartType){
+export function setChartType (queryKey, chartType){
   return {
     type: types.SET_CHART_TYPE,
-    chartType
+    queryKey, chartType
+  }
+}
+
+export function initChartType (chartTypes){
+  return {
+    type: types.INIT_CHART_TYPE,
+    chartTypes
   }
 }

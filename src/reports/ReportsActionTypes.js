@@ -6,3 +6,4 @@ export const SET_ALL_COUNT = "SET_ALL_COUNT";
 export const SET_TODAY_COUNT = "SET_TODAY_COUNT";
 export const ADD_QUERY_ANSWER = "ADD_QUERY_ANSWER";
 export const SET_CHART_TYPE = "SET_CHART_TYPE";
+export const INIT_CHART_TYPE = "INIT_CHART_TYPE";
