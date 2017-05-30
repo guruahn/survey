@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { database, firebaseAuth, datetimeFormat } from '../config/constants';
 import Loading from 'react-loading-animation'
+import moment from 'moment';
 
 //Components
 import Query from './Query.js';
@@ -105,7 +106,8 @@ class Participate extends Component {
     const surveyParticipteKey = database.ref().child('survey-querys').push().key;
     updates['/survey-participate/' + this.props.match.params.surveyKey + '/' + surveyParticipteKey ] = {
       "respondent" : this.props.respondent,
-      "respondentAnswers" : this.props.respondentAnswers
+      "respondentAnswers" : this.props.respondentAnswers,
+      "updateDatetime" : moment().format(datetimeFormat)
     }
     database.ref().update(updates).then(function(){
       console.log('query update complete')
