@@ -13,6 +13,7 @@ import MySurveys from '../surveys/MySurveys'
 import SurveyDetail from '../surveys/SurveyDetail'
 import Loading from 'react-loading-animation'
 import Participate from '../participate/Participate'
+import Reports from '../reports/Reports'
 
 //Etcs...
 import './style/Base.css';
@@ -106,6 +107,7 @@ class App extends Component {
                   <PublicRoute authed={this.state.authed} path='/register' component={Register} />
                   <PrivateRoute exact authed={this.state.authed} path='/participate/:surveyKey/:uid' component={Participate} user={this.state.user} />
                   <PrivateRoute exact authed={this.state.authed} path='/mySurveys' component={MySurveys} user={this.state.user} />
+                  <PrivateRoute exact authed={this.state.authed} path='/reports/:surveyKey' component={Reports} user={this.state.user} />
                   <PrivateRoute authed={this.state.authed} path='/mySurveys/:surveyKey' component={SurveyDetail} user={this.state.user} />
                   <Route render={() => <h3>No Match</h3>} />
                 </Switch>
