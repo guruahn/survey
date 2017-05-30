@@ -15,7 +15,7 @@ import Loading from 'react-loading-animation';
 import Participate from '../participate/Participate';
 import Reports from '../reports/Reports';
 import Participants from '../participants/Participants';
-
+import Participant from '../participants/Participant';
 //Etcs...
 import './style/Base.css';
 
@@ -110,6 +110,7 @@ class App extends Component {
                   <PrivateRoute exact authed={this.state.authed} path='/mySurveys' component={MySurveys} user={this.state.user} />
                   <PrivateRoute exact authed={this.state.authed} path='/reports/:surveyKey/:uid' component={Reports} user={this.state.user} />
                   <PrivateRoute exact authed={this.state.authed} path='/participants/:surveyKey/:uid' component={Participants} user={this.state.user} />
+                  <PrivateRoute exact authed={this.state.authed} path='/participants/:surveyKey/:uid/:participateKey' component={Participant} user={this.state.user} />
                   <PrivateRoute authed={this.state.authed} path='/mySurveys/:surveyKey' component={SurveyDetail} user={this.state.user} />
                   <Route render={() => <h3>No Match</h3>} />
                 </Switch>

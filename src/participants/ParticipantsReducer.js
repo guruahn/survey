@@ -12,6 +12,7 @@ const initialState = {
   surveyDetailQuerys:[],
   surveyDetailQuerysAnswers:[],
   loading: true,
+  participants:[]
 };
 
 export default function participantsReducer(state = initialState, action){
@@ -34,6 +35,10 @@ export default function participantsReducer(state = initialState, action){
         return {
           ...state,
           surveyDetailQuerys: action.querys
+        }
+      case types.SET_SURVEY_PARTICIPATE:
+        return {
+          ...state, participants: action.participants
         }
       default:
         return state;

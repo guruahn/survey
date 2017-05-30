@@ -31,3 +31,10 @@ export function addQueryAnswer (queryKey, answer){
     queryKey, answer
   }
 }
+
+export function setSurveyParticipate (participants){
+  return {
+    type: types.SET_SURVEY_PARTICIPATE,
+    participants
+  }
+}
