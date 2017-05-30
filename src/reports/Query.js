@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import {PieChart, BarChart} from 'react-d3';
+import RC2 from 'react-chartjs2';
+
 class Query extends Component {
   constructor(props) {
       super(props);
@@ -7,7 +8,7 @@ class Query extends Component {
 
       this.setPieData = this.setPieData.bind(this);
       this.setBarData = this.setBarData.bind(this);
-      this.pieData = [];
+      this.pieData = {"labels":[], "datasets":[{"data":[]}]};
       this.barData = [];
   }
 
@@ -19,7 +20,9 @@ class Query extends Component {
       sum += report[label];
     });
     Object.keys(report).forEach(function(label){
-      _this.pieData.push({"label": label, "value":(report[label]*100/sum)})
+      _this.pieData.labels.push(label);
+      _this.pieData.datasets[0].data.push(report[label]);
+      //_this.pieData.push({"label": label, "value":(report[label]*100/sum)})
     });
   }
 
@@ -43,25 +46,11 @@ class Query extends Component {
     const printChart = () => {
       if(this.props.chartType === "pieChart"){
         return (
-          <PieChart
-            data= {this.pieData}
-            width= {700}
-            height= {400}
-            radius={100}
-            innerRadius={20}
-            sectorBorderColor="white"
-          />
+          <RC2 data={this.pieData} type={"pie"}/>
         )
       }else if(this.props.chartType === "barChart"){
         return (
-          <BarChart
-            data={this.barData}
-            width={500}
-            height={200}
-            fill={'#3182bd'}
-            yAxisLabel='Label'
-            xAxisLabel='Value'
-          />
+          <RC2 data={this.pieData} type={"bar"}/>
         )
       }
     };
