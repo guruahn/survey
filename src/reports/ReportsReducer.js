@@ -15,7 +15,7 @@ const initialState = {
   loading: true,
   respondentAnswers: {},
   allCount: 0,
-  todayCount: 0,
+  todayCount: 0
 };
 
 export default function reportsReducer(state = initialState, action){
