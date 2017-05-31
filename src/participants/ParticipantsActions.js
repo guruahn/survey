@@ -38,3 +38,10 @@ export function setSurveyParticipate (participants){
     participants
   }
 }
+
+export function setSurveyRespondentInfo (respondentInfo){
+  return {
+    type: types.SET_SURVEY_RESPONDENT_INFO,
+    respondentInfo
+  }
+}

@@ -59,6 +59,10 @@ class Participants extends Component {
         });
       }
     };
+
+    if (this.props.loading) {
+      return <div className="u-marginTop10em"><Loading type='balls' color='#F0AD4E' /></div>
+    }
     return(
       <div className="u-maxWidth700 u-marginAuto">
         <h1>참여자로그 : {this.props.surveyDetail.value.title}</h1>
@@ -81,8 +85,6 @@ class Participants extends Component {
 const mapStateToProps = (state) => {
   return {
     surveyDetail: state.participantsReducer.surveyDetail,
-    surveyDetailQuerys: state.participantsReducer.surveyDetailQuerys,
-    surveyDetailQuerysAnswers: state.participantsReducer.surveyDetailQuerysAnswers,
     loading: state.participantsReducer.loading,
     participants: state.participantsReducer.participants,
   };
@@ -92,8 +94,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleSetSurvey: (key, survey) => { dispatch(actions.setSurvey(key, survey)) },
     handleSetLoading: (state) => { dispatch(actions.setLoading(state)) },
-    handleAddQueryAnswer: (queryKey, answer) => { dispatch(actions.addQueryAnswer(queryKey, answer)) },
-    handleSetQuerys: (querys) => { dispatch(actions.setQuerys(querys)) },
     handleSetSurveyParticipate: (participate) => { dispatch(actions.setSurveyParticipate(participate)) },
   };
 };
