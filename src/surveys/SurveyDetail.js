@@ -253,18 +253,21 @@ class SurveyDetail extends Component {
     return(
       <div className="u-maxWidth700 u-marginAuto">
         <h1>설문지 작성</h1>
-        <div>
+        <div className={"u-padding1Em"}>
           <button
+            className={"u-paddingDot7Em"}
             disabled={this.props.surveyDetail.value.isDeployed ? "disabled" : false}>
             저장하기
           </button>
           <button
+            className={"u-paddingDot7Em"}
             onClick={this.goDeploy}
             disabled={this.props.surveyDetail.value.isDeployed ? "disabled" : false}>
             {this.props.surveyDetail.value.isDeployed ? "배포됨" : "배포하기"}
           </button>
         </div>
-        <div>
+        <div className={"form-label"}>
+          <label>설문제목</label>
           <input
             type="text" name="title" data-name="title"
             value={this.props.surveyDetail.value.title}
@@ -274,8 +277,9 @@ class SurveyDetail extends Component {
         </div>
         <h2>질문</h2>
         {printQueryOfSurvey(this.props.surveyDetailQuerys)}
-        <div>
+        <div className={"u-padding1Em"}>
           <button
+            className={"u-paddingDot7Em"}
             onClick={this.addQuery}
             disabled={this.props.surveyDetail.value.isDeployed ? "disabled" : false}>
             질문 추가

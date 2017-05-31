@@ -26,7 +26,7 @@ class Answers extends Component {
       }
       //console.log('queryKey', this.props.queryKey)
       return(
-          <div>{printAnswers(this.props.answerData)}</div>
+          <div className={"u-paddingDot7Em"}>{printAnswers(this.props.answerData)}</div>
       );
     }
 }

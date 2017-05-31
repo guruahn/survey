@@ -81,6 +81,13 @@ export function setSurveyAnswers (answers, queryKey){
   }
 }
 
+export function setQueryCount (count){
+  return {
+    type: types.SET_QUERY_COUNT,
+    count
+  }
+}
+
 export function setInitSurveyAnswers (queryKey, answer){
   return {
     type: types.SET_INIT_SURVEY_ANSWERS,

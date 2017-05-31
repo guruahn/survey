@@ -3,6 +3,7 @@ import * as types from './SurveysActionTypes';
 const initialState = {
   surveys: [],
   loading: true,
+  queryCounts: {}
 };
 
 export default function mySurveys(state = initialState, action){
@@ -16,6 +17,9 @@ export default function mySurveys(state = initialState, action){
       return { ...state, loading: action.state }
     default:
       return state;
-
+    case types.SET_QUERY_COUNT:
+      return {
+        ...state, queryCounts : action.count
+      }
   }
 }

@@ -13,7 +13,7 @@ class Answers extends Component {
           //console.log(`input ${answers.answerKey}-${i}-${answer}`)
           return (
             <div key={`${answers.answerKey}-${i}`}>
-              <label>{answer}</label>
+              <label >{answer}
               <input
                 value={answer}
                 name={this.props.queryKey}
@@ -22,6 +22,7 @@ class Answers extends Component {
                 data-answer-index={i}
                 onChange={(e) => this.props.onChangeAnswer(e, this.props.queryKey, this.props.answerType)}
                 />
+              </label>
             </div>
           )
         })

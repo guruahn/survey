@@ -2,6 +2,7 @@
 @import "./_variables.scss";
 @import "./_grid.css";
 @import "./_utils.scss";
+@import "./_form.scss"
 /*
  * default style definition
  */
@@ -27,7 +28,7 @@ p, div, th, td, select, input {
 }
 a:link, a:visited {
 	color: $gray;
-	text-decoration: none;
+  text-decoration: underline;
 }
 a:active, a:hover {
 	color: #000;

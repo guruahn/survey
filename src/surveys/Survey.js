@@ -6,11 +6,10 @@ class Survey extends Component {
         super(props);
     }
     render() {
-
+        console.log(this.props.queryCounts)
         return(
             <div>
               {this.props.data.title} |
-              8개 |
               <Link to={`/mySurveys/${this.props.surveyKey}`} >수정하기</Link> |
 
               {this.props.data.isDeployed &&

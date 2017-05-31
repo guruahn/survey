@@ -16,8 +16,9 @@ import * as actions from './SurveysActions';
 class MySurveys extends Component {
   constructor(props) {
     super(props)
-    this.getSurveys = this.getSurveys.bind(this)
+    this.getSurveys = this.getSurveys.bind(this);
     this.addSurvey = this.addSurvey.bind(this);
+    this.getQueryCount = this.getQueryCount.bind(this);
   }
 
   getSurveys(){
@@ -28,8 +29,9 @@ class MySurveys extends Component {
         //console.log("surveys", JSON.stringify({key:data.key, value:data.val()}));
         surveys.push({key:data.key, value:data.val()})
       });
-      _this.props.handleSetMySurveys(surveys)
+      _this.props.handleSetMySurveys(surveys);
       _this.props.handleSetLoading(false);
+      _this.getQueryCount(surveys);
     });
   }
 
@@ -50,8 +52,20 @@ class MySurveys extends Component {
     });
   }
 
+  getQueryCount(surveys){
+    let _this = this;
+    let queryCounts = {}
+    surveys.map((survey) => {
+      let surveyQueryRef = database.ref('/survey-querys/' + survey.key);
+      surveyQueryRef.once('value').then(function(snapshot, key) {
+        queryCounts[survey.key] = snapshot.numChildren();
+      });
+    });
+    _this.props.handleSetQueryCount(queryCounts);
+  }
+
   componentDidMount(){
-    this.getSurveys()
+    this.getSurveys();
   }
 
   render() {
@@ -59,11 +73,9 @@ class MySurveys extends Component {
       if(typeof surveys === 'undefined' || surveys.length === 0){
         return <div>아직 설문이 없습니다. </div>
       }else{
-
         return surveys.map((survey, i) => {
-          //console.log('survey', survey)
           return (
-            <li className={"list-group-item"} data-name="item" key={survey.key}>
+            <li className={"u-padding1Em u-borderBottomNormal"} data-name="item" key={survey.key}>
               <Survey
                 data={survey.value}
                 surveyKey={survey.key}
@@ -81,12 +93,12 @@ class MySurveys extends Component {
       <div className="u-maxWidth700 u-marginAuto">
         <h1>설문지 목록</h1>
         <div>
-          <button onClick={this.addSurvey}>
+          <button onClick={this.addSurvey} className={"u-padding1Em"}>
             설문지 추가
           </button>
         </div>
         <div data-name="survey-list">
-          <ul className={"list-group"}>{mapToComponent(this.props.surveys)}</ul>
+          <ul className={"u-borderTopNormal"}>{mapToComponent(this.props.surveys)}</ul>
         </div>
       </div>
     );
@@ -97,6 +109,7 @@ const mapStateToProps = (state) => {
   return {
     surveys: state.mySurveys.surveys,
     loading: state.mySurveys.loading,
+    queryCounts: state.mySurveys.queryCounts,
   };
 }
 
@@ -104,6 +117,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleSetMySurveys: (surveys) => { dispatch(actions.setMySurveys(surveys)) },
     handleSetLoading: (state) => { dispatch(actions.setLoading(state)) },
+    handleSetQueryCount: (count) => { dispatch(actions.setQueryCount(count)) },
   };
 };
 

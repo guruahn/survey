@@ -58,6 +58,18 @@
 .u-inlineBlock {
   display: inline-block; }
 
+.u-padding1Em {
+  padding: 1em; }
+
+.u-paddingDot7Em {
+  padding: .7em; }
+
+.u-borderBottomNormal {
+  border-bottom: 1px solid #eee; }
+
+.u-borderTopNormal {
+  border-top: 1px solid #eee; }
+
 /*Mixins*/
 /*
  * default style definition
@@ -84,7 +96,7 @@ p, div, th, td, select, input {
 
 a:link, a:visited {
   color: #666;
-  text-decoration: none; }
+  text-decoration: underline; }
 
 a:active, a:hover {
   color: #000;

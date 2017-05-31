@@ -116,12 +116,12 @@ export default function surveyDetail(state = initialState, action){
           ]
         }
       case types.GO_DEPLOY:
-        case types.SET_SURVEY_TITLE:
-          return {
-            ...state, surveyDetail:{
-              ...state.surveyDetail, value: { isDeployed: true , updateDatetime: action.updateDatetime}
-            }
+        return {
+          ...state, surveyDetail:{
+            ...state.surveyDetail, value: { isDeployed: true , updateDatetime: action.updateDatetime}
           }
+        }
+      
       default:
         return state;
     }

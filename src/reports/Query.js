@@ -15,18 +15,21 @@ class Query extends Component {
     let _this = this;
     let report = this.props.queryData.value.report;
     let sum = 0;
-    Object.keys(report).forEach(function(label){
-      sum += report[label];
-    });
-    Object.keys(report).forEach(function(label){
-      _this.pieData.labels.push(label);
-      _this.pieData.datasets[0].data.push(report[label]);
-      _this.tableData.push({
-        "label": label,
-        "value":report[label],
-        "percent":(report[label]*100/sum)
+    if(report){
+      Object.keys(report).forEach(function(label){
+        sum += report[label];
       });
-    });
+      Object.keys(report).forEach(function(label){
+        _this.pieData.labels.push(label);
+        _this.pieData.datasets[0].data.push(report[label]);
+        _this.tableData.push({
+          "label": label,
+          "value":report[label],
+          "percent":(report[label]*100/sum)
+        });
+      });
+    }
+
   }
 
   componentDidMount(){

@@ -39,8 +39,8 @@ class Query extends Component {
     //{printAnswers(query.answers, i)}
     return(
       <div>
-        <div data-name="query">
-          <div>
+        <div className={"u-padding1Em u-borderBottomNormal"} data-name="query">
+          <div className={"u-paddingDot7Em"}>
             <lable>질문내용</lable>
             <input
               type="text"
@@ -50,9 +50,10 @@ class Query extends Component {
               disabled={this.props.isDeployed ? "disabled" : false}
             />
             </div>
-          <div>
+          <div className={"u-paddingDot7Em"}>
             <label>답변형태</label>
             <select
+              className={"u-paddingDot7Em"}
               value={this.props.queryData.value.answerType}
               onChange={(e) => this.props.onChangeQueryAnswerType(e, this.props.queryData.key, this.props.index )}
               disabled={this.props.isDeployed ? "disabled" : false}
@@ -63,12 +64,13 @@ class Query extends Component {
             </select>
 
           </div>
-          <div>
+          <div className={"u-paddingDot7Em"}>
             <label>선택항목</label>
             {setAnswer(this.props.queryData.key)}
             <button
               disabled={ (this.props.queryData.value.answerType == 'yesOrNo' || this.props.isDeployed) ? "disabled" : false }
-              onClick={() => this.props.onClickAddAnswer(this.props.queryData.key, this.props.index)}>
+              onClick={() => this.props.onClickAddAnswer(this.props.queryData.key, this.props.index)}
+              className={"u-paddingDot7Em"}>
               선택항목 추가
             </button>
           </div>

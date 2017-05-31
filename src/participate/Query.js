@@ -34,10 +34,9 @@ class Query extends Component {
 
     }
     return(
-      <div>
+      <div className={"u-padding1Em u-borderBottomNormal"}>
         <div>
-          <lable>질문내용 : </lable>
-          {this.props.queryData.value.question}
+          <h3>{this.props.queryData.value.question}</h3>
         </div>
         <div>
           <label>선택항목</label>

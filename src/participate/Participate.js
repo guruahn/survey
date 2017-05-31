@@ -177,10 +177,12 @@ class Participate extends Component {
               type="text" name="respondent" data-name="respondent"
               value={this.props.respondent}
               onChange={(e) => this.props.handleSetRespondent(e.target.value)}
+              className={"u-paddingDot7Em"}
               />
             <button
               onClick={() => this.checkIsParticipate()}
               disabled={ (this.props.respondent.length > 0 ) ? "" : "disabled" }
+              className={"u-padding1Em"}
               >
               참여하기
             </button>
@@ -208,8 +210,8 @@ class Participate extends Component {
         </div>
         <h2>질문</h2>
         {printQueryOfSurvey(this.props.surveyDetailQuerys)}
-        <div>
-          <button onClick={this.submitSurvey}>완료</button>
+        <div className={"u-paddingDot7Em"}>
+          <button onClick={this.submitSurvey} className={"u-padding1Em"}>완료</button>
         </div>
       </div>
     );
