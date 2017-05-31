@@ -4,7 +4,10 @@ import moment from 'moment';
 export function auth (email, pw) {
   return firebaseAuth().createUserWithEmailAndPassword(email, pw)
     .then(saveUser)
-    .catch((error) => console.log('Oops', error))
+    .catch((error) => {
+      console.log('Oops', error)
+      alert(error.message)
+    })
 }
 
 export function logout () {
@@ -13,6 +16,9 @@ export function logout () {
 
 export function login (email, pw) {
   return firebaseAuth().signInWithEmailAndPassword(email, pw)
+    .catch((error) => {
+      alert(error.message)
+    })
 }
 
 export function saveUser (user) {
